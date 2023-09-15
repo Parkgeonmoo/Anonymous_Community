@@ -28,5 +28,11 @@ public class articleEntity {
     @Column
     private String password;
 
+    @Column
+    private String created_time;
+
+    @Column
+    private String updated_time;
+
 
 }
