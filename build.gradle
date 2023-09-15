@@ -26,13 +26,19 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'mysql:mysql-connector-java:8.0.26'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
     implementation 'mysql:mysql-connector-java'
+    implementation 'com.slack.api:slack-api-client:1.30.0'
+    implementation("net.gpedro.integrations.slack:slack-webhook:1.4.0")
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+
+
 
 }
 
