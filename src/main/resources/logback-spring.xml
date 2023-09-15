@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name = "LOG_PATH" value = "./logs"/>
+    <appender name = "console" class ="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+
+        <!-- Encoder 추가 -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref  ref = "console"/>
+    </root>
+
+    <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
+        <!-- Slack API token -->
+
+        <!-- Slack incoming webhook uri. Uncomment the lines below to use incoming webhook uri instead of API token. -->
+
+        <webhookUri>https://hooks.slack.com/services/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</webhookUri>
+
+        <!-- Channel that you want to post - default is #general -->
+        <channel>#error_log</channel>
+        <!-- Formatting (you can use Slack formatting - URL links, code formatting, etc.) -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%-4relative [%thread] %-5level %class - %msg%n</pattern>
+        </layout>
+        <!-- Username of the messages sender -->
+        <username>error bot</username>
+        <!-- Emoji to be used for messages -->
+        <iconEmoji>:error_bot:</iconEmoji>
+        <!-- If color coding of log levels should be used -->
+        <colorCoding>true</colorCoding>
+    </appender>
+
+    <!-- Currently recommended way of using Slack appender -->
+    <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="SLACK" />
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <root>
+        <level value="ALL" />
+        <appender-ref ref="ASYNC_SLACK" />
+    </root>
+</configuration>
