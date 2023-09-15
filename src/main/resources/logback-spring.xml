@@ -21,7 +21,7 @@
 
         <!-- Slack incoming webhook uri. Uncomment the lines below to use incoming webhook uri instead of API token. -->
 
-        <webhookUri>https://hooks.slack.com/services/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</webhookUri>
+        <webhookUri>웹 훅 주소</webhookUri>
 
         <!-- Channel that you want to post - default is #general -->
         <channel>#error_log</channel>
