@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Data
 public class article {
-    int articleIndex;
+    String articleIndex;
     String title;
     String nickName;
     String contents;
