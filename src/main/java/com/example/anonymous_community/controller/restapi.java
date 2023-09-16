@@ -51,7 +51,7 @@ public class restapi {
     }
 
     @GetMapping("/articles")
-    public ResponseEntity getArticles(@PageableDefault(page = 0,size = 20) int page, int limit) {
+    public ResponseEntity getArticles(int page, int limit) {
         List<article> result = articleService.getArticlesService(page,limit);
 
         if (result != null) {
