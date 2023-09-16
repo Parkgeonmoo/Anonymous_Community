@@ -1,12 +1,12 @@
 package com.example.anonymous_community.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "article_tb")
 public class articleEntity {
@@ -14,7 +14,7 @@ public class articleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="article_id", nullable = false)
-    private int articleIndex;
+    private String articleIndex;
 
     @Column
     private String title;
