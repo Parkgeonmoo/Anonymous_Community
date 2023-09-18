@@ -4,7 +4,6 @@ import com.example.anonymous_community.dto.article;
 import com.example.anonymous_community.dto.comment;
 import com.example.anonymous_community.service.articleService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -74,7 +73,7 @@ public class restapi {
 
     @GetMapping("/comment")
     public ResponseEntity getComment(String articleIndex) {
-        comment result = commentService.getCommentService(articleIndex);
+        List<comment> result = commentService.getCommentService(articleIndex);
 
         if (result != null) {
             return ResponseEntity.ok(result);
@@ -94,6 +93,16 @@ public class restapi {
         }
     }
 
+    @PutMapping("/comment")
+    public ResponseEntity putComment(@RequestBody comment inputComment) {
+        comment result = commentService.putCommentService(inputComment);
+        if (result != null) {
+            return ResponseEntity.ok(result);
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @DeleteMapping("/article")
     public ResponseEntity deleteArticle(String articleIndex,String password){
         article result = articleService.deleteArticleService(articleIndex,password);
@@ -102,6 +111,17 @@ public class restapi {
         }else{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @DeleteMapping("/comment")
+    public ResponseEntity deleteComment(@RequestBody comment inputComment) {
+        comment result = commentService.deleteCommentService(inputComment);
+        if (result != null) {
+            return ResponseEntity.ok(result);
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
 }
