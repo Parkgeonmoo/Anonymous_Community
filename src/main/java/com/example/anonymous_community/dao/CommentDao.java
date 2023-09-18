@@ -3,18 +3,18 @@ package com.example.anonymous_community.dao;
 import com.example.anonymous_community.entity.commentEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import com.example.anonymous_community.repository.commentRepository;
+import com.example.anonymous_community.repository.CommentRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 @Slf4j
-public class commentdao {
+public class CommentDao {
 
-    commentRepository commentRepository;
+    CommentRepository commentRepository;
 
-    public commentdao(commentRepository commentRepository) {
+    public CommentDao(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
 

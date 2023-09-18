@@ -2,10 +2,8 @@ package com.example.anonymous_community.dto;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-
 @Data
-public class comment {
+public class Comment {
 
     private String commentIndex;
     private String articleIndex;

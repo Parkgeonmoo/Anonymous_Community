@@ -1,27 +1,27 @@
 package com.example.anonymous_community.service;
 
 import com.example.anonymous_community.entity.articleEntity;
-import com.example.anonymous_community.dao.articledao;
+import com.example.anonymous_community.dao.ArticleDao;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import com.example.anonymous_community.dto.article;
+import com.example.anonymous_community.dto.Article;
 import java.util.*;
 
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
-public class articleService {
-    articledao articledao = null;
+public class ArticleService {
+    ArticleDao articledao = null;
 
-    public articleService(articledao articledao) {
+    public ArticleService(ArticleDao articledao) {
         this.articledao = articledao;
     }
 
-    public article postArticleService(article inputArticle) {
+    public Article postArticleService(Article inputArticle) {
         articleEntity articleEntity = new articleEntity();
         articleEntity returnArticleEntity = new articleEntity();
-        article returnArticle = new article();
+        Article returnArticle = new Article();
         try {
             if (inputArticle != null) {
                 LocalDateTime now = LocalDateTime.now();
@@ -53,11 +53,11 @@ public class articleService {
         return returnArticle;
     }
 
-    public List<article> getArticlesService(int page,int limit) {
+    public List<Article> getArticlesService(int page, int limit) {
         Page<articleEntity> pageArticleEntity = articledao.getArticlesEntity(page,limit);
-        List<article> articles = new ArrayList<>();
+        List<Article> Articles = new ArrayList<>();
         for (articleEntity entity: pageArticleEntity.getContent()) {
-            article art = new article();
+            Article art = new Article();
             art.setArticleIndex(entity.getArticleIndex());
             art.setTitle(entity.getTitle());
             art.setNickName(entity.getNickname());
@@ -65,13 +65,13 @@ public class articleService {
             art.setPassword(entity.getPassword());
             art.setCreated_Time(entity.getCreated_time());
             art.setUpdated_Time(entity.getUpdated_time());
-            articles.add(art);
+            Articles.add(art);
         }
-        return articles;
+        return Articles;
     }
-    public article getArticleService(String articleIndex) {
+    public Article getArticleService(String articleIndex) {
         articleEntity articleEntity = articledao.getArticleEntity(articleIndex);
-        article returnArticle = new article();
+        Article returnArticle = new Article();
         returnArticle.setArticleIndex(articleEntity.getArticleIndex());
         returnArticle.setTitle(articleEntity.getTitle());
         returnArticle.setNickName(articleEntity.getNickname());
@@ -85,9 +85,9 @@ public class articleService {
 
     }
 
-    public article putArticleService(article inputArticle) {
+    public Article putArticleService(Article inputArticle) {
         articleEntity articleEntity = new articleEntity();
-        article returnArticle = null;
+        Article returnArticle = null;
         articleEntity returnArticleEntity = null;
 
         try {
@@ -108,7 +108,7 @@ public class articleService {
             returnArticleEntity = articledao.putArticleEntity(articleEntity);
 
             if (returnArticleEntity != null) {
-                returnArticle = new article();
+                returnArticle = new Article();
                 returnArticle.setArticleIndex(returnArticleEntity.getArticleIndex());
                 returnArticle.setTitle(returnArticleEntity.getTitle());
                 returnArticle.setNickName(returnArticleEntity.getNickname());
@@ -127,14 +127,14 @@ public class articleService {
         return returnArticle;
     }
 
-    public article deleteArticleService(String articleIndex,String password){
-        article returnArticle = null;
+    public Article deleteArticleService(String articleIndex, String password){
+        Article returnArticle = null;
         articleEntity returnArticleEntity = null;
 
         returnArticleEntity = articledao.deleteArticleEntity(articleIndex,password);
 
         if (returnArticleEntity != null) {
-            returnArticle = new article();
+            returnArticle = new Article();
             returnArticle.setArticleIndex(returnArticleEntity.getArticleIndex());
             returnArticle.setTitle(returnArticleEntity.getTitle());
             returnArticle.setNickName(returnArticleEntity.getNickname());

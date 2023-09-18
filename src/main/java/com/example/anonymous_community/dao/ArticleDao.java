@@ -1,25 +1,22 @@
 package com.example.anonymous_community.dao;
 
-import com.example.anonymous_community.dto.article;
 import com.example.anonymous_community.entity.articleEntity;
-import com.example.anonymous_community.repository.articleRepository;
+import com.example.anonymous_community.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Repository
 @Slf4j
-public class articledao {
-    articleRepository articleRepository;
+public class ArticleDao {
+    ArticleRepository articleRepository;
 
-    public articledao(articleRepository repository) {
+    public ArticleDao(ArticleRepository repository) {
         this.articleRepository = repository;
     }
 

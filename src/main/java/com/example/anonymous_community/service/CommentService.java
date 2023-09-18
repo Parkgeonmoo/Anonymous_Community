@@ -1,26 +1,26 @@
 package com.example.anonymous_community.service;
 
 
-import com.example.anonymous_community.dto.comment;
+import com.example.anonymous_community.dto.Comment;
 import com.example.anonymous_community.entity.commentEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.example.anonymous_community.dao.commentdao;
+import com.example.anonymous_community.dao.CommentDao;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
-public class commentService {
-    commentdao commentdao = null;
+public class CommentService {
+    CommentDao commentdao = null;
 
-    public commentService(commentdao commentdao) {
+    public CommentService(CommentDao commentdao) {
         this.commentdao = commentdao;
     }
 
-    public comment postCommentService(comment inputComment) {
-        comment returnComment = new comment();
+    public Comment postCommentService(Comment inputComment) {
+        Comment returnComment = new Comment();
         commentEntity commentEntity = new commentEntity();
 
         if (inputComment == null) {
@@ -57,15 +57,15 @@ public class commentService {
 
     }
 
-    public List<comment> getCommentService(String articleIndex) {
-        List<comment> returnComments = new ArrayList<>();
+    public List<Comment> getCommentService(String articleIndex) {
+        List<Comment> returnComments = new ArrayList<>();
         List<commentEntity> commentEntity = new ArrayList<>();
 
         try {
             commentEntity = commentdao.getCommentEntities(articleIndex);
 
             for (commentEntity temp : commentEntity) {
-                comment tempComment = new comment();
+                Comment tempComment = new Comment();
                 tempComment.setCommentIndex(temp.getCommentIndex());
                 tempComment.setArticleIndex(temp.getArticleIndex());
                 tempComment.setNickName(temp.getNickName());
@@ -83,9 +83,9 @@ public class commentService {
 
     }
 
-    public comment putCommentService(comment inputComment) {
+    public Comment putCommentService(Comment inputComment) {
         commentEntity commentEntity = new commentEntity();
-        comment returnComment = new comment();
+        Comment returnComment = new Comment();
         commentEntity.setArticleIndex(inputComment.getArticleIndex());
         commentEntity.setCommentIndex(inputComment.getCommentIndex());
         commentEntity.setContents(inputComment.getContents());
@@ -105,9 +105,9 @@ public class commentService {
          return returnComment;
     }
 
-    public comment deleteCommentService(comment inputComment) {
+    public Comment deleteCommentService(Comment inputComment) {
         commentEntity commentEntity = new commentEntity();
-        comment returnComment = new comment();
+        Comment returnComment = new Comment();
         commentEntity.setArticleIndex(inputComment.getArticleIndex());
         commentEntity.setCommentIndex(inputComment.getCommentIndex());
         commentEntity.setPassword(inputComment.getPassword());

@@ -1,12 +1,10 @@
 package com.example.anonymous_community.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 
 @Data
-public class article {
+public class Article {
     String articleIndex;
     String title;
     String nickName;
@@ -15,7 +13,7 @@ public class article {
     String created_Time;
     String updated_Time;
 
-    public article() {
+    public Article() {
 
     }
 
