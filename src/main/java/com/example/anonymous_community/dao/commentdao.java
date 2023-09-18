@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import com.example.anonymous_community.repository.commentRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -37,18 +38,85 @@ public class commentdao {
         return returnCommentEntity;
     }
 
-    public commentEntity getCommentEntity(String commentIndex) {
-        commentEntity returnCommentEntity = null;
-        Optional<commentEntity> optionalCommentEntity = commentRepository.findById(commentIndex);
+    public List<commentEntity> getCommentEntities(String articleIndex) {
+        List<commentEntity> commentEntities = commentRepository.findByArticleIndex(articleIndex);
 
-        if (optionalCommentEntity.isPresent()) {
-            returnCommentEntity = optionalCommentEntity.get();
-            return returnCommentEntity;
-        } else {
+        if (commentEntities.isEmpty()) {
             System.out.println("해당 인덱스의 댓글이 없습니다.");
             return null;
+        } else {
+            return commentEntities;
         }
     }
+
+    public commentEntity putCommentEntity(commentEntity commentEntity) {
+        if (commentEntity != null) {
+            String articleIndex = commentEntity.getArticleIndex();
+            String commentIndex = commentEntity.getCommentIndex();
+
+            // JPA를 사용하여 articleIndex와 commentIndex에 해당하는 댓글 조회
+            Optional<commentEntity> existingCommentOptional = Optional.ofNullable(commentRepository.findByArticleIndexAndCommentIndex(articleIndex, commentIndex));
+
+            if (existingCommentOptional.isPresent()) {
+                commentEntity existingComment = existingCommentOptional.get();
+
+                // 비밀번호 일치 여부 확인
+                String savedPassword = existingComment.getPassword();
+                String providedPassword = commentEntity.getPassword();
+
+                if (savedPassword.equals(providedPassword)) {
+                    // 업데이트할 내용 설정
+                    String updatedContent = commentEntity.getContents();
+                    existingComment.setContents(updatedContent);
+
+                    // 업데이트된 댓글 저장
+                    commentEntity updatedComment = commentRepository.save(existingComment);
+
+                    return updatedComment;
+                } else {
+                    throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+                }
+            }else{
+                System.out.println("해당하는 댓글이 존재하지 않습니다.");
+            }
+        }
+
+        return null;
+    }
+
+    public commentEntity deleteEntity(commentEntity commentEntity) {
+        if (commentEntity != null) {
+            String articleIndex = commentEntity.getArticleIndex();
+            String commentIndex = commentEntity.getCommentIndex();
+
+            // JPA를 사용하여 articleIndex와 commentIndex에 해당하는 댓글 조회
+            Optional<commentEntity> existingCommentOptional = Optional.ofNullable(commentRepository.findByArticleIndexAndCommentIndex(articleIndex, commentIndex));
+
+            if (existingCommentOptional.isPresent()) {
+                commentEntity existingComment = existingCommentOptional.get();
+
+                // 비밀번호 일치 여부 확인
+                String savedPassword = existingComment.getPassword();
+                String providedPassword = commentEntity.getPassword();
+
+                if (savedPassword.equals(providedPassword)) {
+
+                    commentRepository.delete(existingComment);
+
+                    return existingComment;
+                } else {
+                    throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+                }
+            }else{
+                System.out.println("해당하는 댓글이 존재하지 않습니다.");
+            }
+        }
+        return null;
+    }
+
+
+
+
 
 }
 
