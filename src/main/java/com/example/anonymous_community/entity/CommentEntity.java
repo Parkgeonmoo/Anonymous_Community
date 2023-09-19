@@ -1,5 +1,6 @@
 package com.example.anonymous_community.entity;
 
+import com.example.anonymous_community.dto.Comment;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -8,11 +9,26 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
 import javax.persistence.GenerationType;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "comment_tb")
 public class CommentEntity {
+
+    public CommentEntity() {
+
+    }
+
+    public CommentEntity(Comment comment) {
+        this.commentIndex = comment.getCommentIndex();
+        this.articleIndex = comment.getArticleIndex();
+        this.nickName = comment.getNickName();
+        this.contents = comment.getContents();
+        this.password = comment.getPassword();
+        this.createdTime = LocalDateTime.now().toString();
+        this.updatedTime = LocalDateTime.now().toString();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +48,10 @@ public class CommentEntity {
     private String password;
 
     @Column(name ="created_time")
-    private String created_Time;
+    private String createdTime;
 
     @Column(name ="updated_Time")
-    private String updated_Time;
+    private String updatedTime;
 
 
 

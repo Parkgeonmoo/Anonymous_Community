@@ -1,18 +1,34 @@
 package com.example.anonymous_community.entity;
 
+import com.example.anonymous_community.dto.Article;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Column;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "article_tb")
 public class ArticleEntity {
+
+    public ArticleEntity(Article inputArticle) {
+        this.articleIndex = inputArticle.getArticleIndex();
+        this.title = inputArticle.getTitle();
+        this.nickname = inputArticle.getNickName();
+        this.contents = inputArticle.getContents();
+        this.password = inputArticle.getPassword();
+        this.createdTime = LocalDateTime.now().toString();
+        this.updatedTime = LocalDateTime.now().toString();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedTime = LocalDateTime.now().toString();
+    }
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +47,13 @@ public class ArticleEntity {
     @Column
     private String password;
 
-    @Column
-    private String created_time;
+    @Column(name="created_time")
+    private String createdTime;
 
-    @Column
-    private String updated_time;
+    @Column(name="updated_time")
+    private String updatedTime;
+
+
 
 
 }
