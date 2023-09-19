@@ -10,12 +10,10 @@ public class Article {
     String nickName;
     String contents;
     String password;
-    String created_Time;
-    String updated_Time;
+    String createdTime;
+    String updatedTime;
 
-    public Article() {
 
-    }
 
 
 }

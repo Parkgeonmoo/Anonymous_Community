@@ -10,7 +10,7 @@ public class Comment {
     private String nickName;
     private String contents;
     private String password;
-    private String created_Time;
-    private String updated_Time;
+    private String createdTime;
+    private String updatedTime;
 
 }
