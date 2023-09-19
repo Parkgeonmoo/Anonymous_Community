@@ -62,7 +62,7 @@ public class ArticleDao {
                 existingArticle.setNickname(ArticleEntity.getNickname());
                 existingArticle.setContents(ArticleEntity.getContents());
                 existingArticle.setPassword(ArticleEntity.getPassword());
-                existingArticle.setUpdated_time(ArticleEntity.getUpdated_time());
+                existingArticle.setUpdatedTime(ArticleEntity.getUpdatedTime());
 
 
                 returnArticleEntity = articleRepository.save(existingArticle);

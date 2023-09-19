@@ -65,9 +65,9 @@ public class CommentDao {
                 if (savedPassword.equals(providedPassword)) {
                     // 업데이트할 내용 설정
                     String updatedContent = CommentEntity.getContents();
-                    String updatedTime = CommentEntity.getUpdated_Time();
+                    String updatedTime = CommentEntity.getUpdatedTime();
                     existingComment.setContents(updatedContent);
-                    existingComment.setUpdated_Time(updatedTime);
+                    existingComment.setUpdatedTime(updatedTime);
 
                     // 업데이트된 댓글 저장
                     CommentEntity updatedComment = commentRepository.save(existingComment);
