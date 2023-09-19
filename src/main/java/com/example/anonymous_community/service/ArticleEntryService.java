@@ -18,11 +18,6 @@ public class ArticleEntryService {
 
 
     public Article postArticleService(Article inputArticle) {
-        ArticleEntity ArticleEntity = new ArticleEntity();
-        ArticleEntity returnArticleEntity = new ArticleEntity();
-        Article returnArticle = new Article();
-
-
 
         if (inputArticle.getTitle() == null) {
             log.error("입력하신 글의 제목이 비어있습니다.");
@@ -45,31 +40,22 @@ public class ArticleEntryService {
         }
 
 
+
         LocalDateTime now = LocalDateTime.now();
 
         inputArticle.setCreatedTime(now.toString());
         inputArticle.setUpdatedTime(now.toString());
 
-        ArticleEntity.setTitle(inputArticle.getTitle());
-        ArticleEntity.setNickname(inputArticle.getNickName());
-        ArticleEntity.setContents(inputArticle.getContents());
-        ArticleEntity.setCreated_time(inputArticle.getCreatedTime());
-        ArticleEntity.setPassword(inputArticle.getPassword());
-        ArticleEntity.setUpdated_time(inputArticle.getUpdatedTime());
-        returnArticleEntity = articledao.postArticleEntity(ArticleEntity);
+        ArticleEntity returnArticleEntity = new ArticleEntity(inputArticle);
+
+        returnArticleEntity = articledao.postArticleEntity(returnArticleEntity);
 
         if (returnArticleEntity == null) {
             log.error("입력하신 글이 정상적으로 저장되지 않았습니다.");
             return null;
         }
+        Article returnArticle = new Article(returnArticleEntity);
 
-
-        returnArticle.setArticleIndex(returnArticleEntity.getArticleIndex());
-        returnArticle.setTitle(returnArticleEntity.getTitle());
-        returnArticle.setNickName(returnArticleEntity.getNickname());
-        returnArticle.setContents(returnArticleEntity.getContents());
-        returnArticle.setCreatedTime(returnArticleEntity.getCreated_time());
-        returnArticle.setCreatedTime(returnArticleEntity.getUpdated_time());
 
         return returnArticle;
     }
@@ -91,14 +77,7 @@ public class ArticleEntryService {
         List<Article> Articles = new ArrayList<>();
 
         for (ArticleEntity entity: pageArticleEntity.getContent()) {
-            Article art = new Article();
-            art.setArticleIndex(entity.getArticleIndex());
-            art.setTitle(entity.getTitle());
-            art.setNickName(entity.getNickname());
-            art.setContents(entity.getContents());
-            art.setPassword(entity.getPassword());
-            art.setCreatedTime(entity.getCreated_time());
-            art.setUpdatedTime(entity.getUpdated_time());
+            Article art = new Article(entity);
             Articles.add(art);
         }
         return Articles;
@@ -120,30 +99,20 @@ public class ArticleEntryService {
         }
 
         ArticleEntity ArticleEntity = articledao.getArticleEntity(articleIndex);
-        Article returnArticle = new Article();
+
 
         if (ArticleEntity == null) {
             log.error("해당 글을 조회하실 수 없습니다.");
             return null;
         }
 
-        returnArticle.setArticleIndex(ArticleEntity.getArticleIndex());
-        returnArticle.setTitle(ArticleEntity.getTitle());
-        returnArticle.setNickName(ArticleEntity.getNickname());
-        returnArticle.setContents(ArticleEntity.getContents());
-        returnArticle.setPassword(ArticleEntity.getPassword());
-        returnArticle.setCreatedTime((ArticleEntity.getCreated_time()));
-        returnArticle.setUpdatedTime(ArticleEntity.getUpdated_time());
-
+        Article returnArticle = new Article(ArticleEntity);
 
         return returnArticle;
 
     }
 
     public Article putArticleService(Article inputArticle) {
-        ArticleEntity ArticleEntity = new ArticleEntity();
-        Article returnArticle = null;
-        ArticleEntity returnArticleEntity = null;
 
         int index;
         try {
@@ -173,32 +142,15 @@ public class ArticleEntryService {
         LocalDateTime now = LocalDateTime.now();
         inputArticle.setUpdatedTime(now.toString());
 
-
-
-        ArticleEntity.setArticleIndex(inputArticle.getArticleIndex());
-        ArticleEntity.setTitle(inputArticle.getTitle());
-        ArticleEntity.setNickname(inputArticle.getNickName());
-        ArticleEntity.setContents(inputArticle.getContents());
-        ArticleEntity.setPassword(inputArticle.getPassword());
-        ArticleEntity.setUpdated_time(inputArticle.getUpdatedTime());
-
-
-        returnArticleEntity = articledao.putArticleEntity(ArticleEntity);
+        ArticleEntity returnArticleEntity = new ArticleEntity(inputArticle);
+        returnArticleEntity = articledao.putArticleEntity(returnArticleEntity);
 
         if (returnArticleEntity == null) {
             log.error("수정하고자 하는 글이 존재하지 않습니다.");
             return null;
         }
 
-
-        returnArticle = new Article();
-        returnArticle.setArticleIndex(returnArticleEntity.getArticleIndex());
-        returnArticle.setTitle(returnArticleEntity.getTitle());
-        returnArticle.setNickName(returnArticleEntity.getNickname());
-        returnArticle.setContents(returnArticleEntity.getContents());
-        returnArticle.setPassword(returnArticleEntity.getPassword());
-        returnArticle.setCreatedTime(returnArticleEntity.getCreated_time());
-        returnArticle.setUpdatedTime(returnArticleEntity.getUpdated_time());
+        Article returnArticle = new Article(returnArticleEntity);
 
         return returnArticle;
     }
@@ -223,26 +175,16 @@ public class ArticleEntryService {
             return null;
         }
 
-        Article returnArticle = null;
-        ArticleEntity returnArticleEntity = null;
-
-        returnArticleEntity = articledao.deleteArticleEntity(articleIndex,password);
+        ArticleEntity returnArticleEntity = articledao.deleteArticleEntity(articleIndex,password);
 
         if (returnArticleEntity == null) {
             log.error("지우고자 하는 글이 존재하지 않습니다.");
             return null;
         }
 
-        if (returnArticleEntity != null) {
-            returnArticle = new Article();
-            returnArticle.setArticleIndex(returnArticleEntity.getArticleIndex());
-            returnArticle.setTitle(returnArticleEntity.getTitle());
-            returnArticle.setNickName(returnArticleEntity.getNickname());
-            returnArticle.setContents(returnArticleEntity.getContents());
-            returnArticle.setPassword(returnArticleEntity.getPassword());
-            returnArticle.setCreatedTime(returnArticleEntity.getCreated_time());
-            returnArticle.setUpdatedTime(returnArticleEntity.getUpdated_time());
-        }
+
+        Article returnArticle = new Article(returnArticleEntity);
+
 
         return returnArticle;
     }

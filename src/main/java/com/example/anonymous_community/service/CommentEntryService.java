@@ -19,8 +19,6 @@ public class CommentEntryService {
     private final CommentDao commentdao;
 
     public Comment postCommentService(Comment inputComment) {
-        Comment returnComment = new Comment();
-        CommentEntity CommentEntity = new CommentEntity();
 
         int index = 0;
 
@@ -53,17 +51,13 @@ public class CommentEntryService {
 
 
         LocalDateTime now = LocalDateTime.now();
+
         inputComment.setCreatedTime(now.toString());
         inputComment.setUpdatedTime(now.toString());
 
 
-        CommentEntity.setCommentIndex(inputComment.getCommentIndex());
-        CommentEntity.setArticleIndex(inputComment.getArticleIndex());
-        CommentEntity.setNickName(inputComment.getNickName());
-        CommentEntity.setContents(inputComment.getContents());
-        CommentEntity.setPassword(inputComment.getPassword());
-        CommentEntity.setCreated_Time(inputComment.getCreatedTime());
-        CommentEntity.setUpdated_Time(inputComment.getUpdatedTime());
+        CommentEntity CommentEntity = new CommentEntity(inputComment);
+
 
         CommentEntity = commentdao.postCommentEntity(CommentEntity);
 
@@ -72,16 +66,7 @@ public class CommentEntryService {
             return null;
         }
 
-
-
-        returnComment.setCommentIndex(CommentEntity.getCommentIndex());
-        returnComment.setArticleIndex(CommentEntity.getArticleIndex());
-        returnComment.setNickName(CommentEntity.getNickName());
-        returnComment.setContents(CommentEntity.getContents());
-        returnComment.setPassword(CommentEntity.getPassword());
-        returnComment.setCreatedTime(CommentEntity.getCreated_Time());
-        returnComment.setUpdatedTime(CommentEntity.getUpdated_Time());
-
+        Comment returnComment = new Comment(CommentEntity);
 
         return returnComment;
 
@@ -115,14 +100,7 @@ public class CommentEntryService {
 
 
         for (CommentEntity temp : CommentEntity) {
-            Comment tempComment = new Comment();
-            tempComment.setCommentIndex(temp.getCommentIndex());
-            tempComment.setArticleIndex(temp.getArticleIndex());
-            tempComment.setNickName(temp.getNickName());
-            tempComment.setContents(temp.getContents());
-            tempComment.setPassword(temp.getPassword());
-            tempComment.setCreatedTime(temp.getCreated_Time());
-            tempComment.setUpdatedTime(temp.getUpdated_Time());
+            Comment tempComment = new Comment(temp);
             returnComments.add(tempComment);
         }
 
@@ -160,33 +138,20 @@ public class CommentEntryService {
 
 
 
-        CommentEntity CommentEntity = new CommentEntity();
-        Comment returnComment = new Comment();
+
+
 
         LocalDateTime now = LocalDateTime.now();
         inputComment.setUpdatedTime(now.toString());
-        System.out.println(now.toString());
 
-        CommentEntity.setArticleIndex(inputComment.getArticleIndex());
-        CommentEntity.setCommentIndex(inputComment.getCommentIndex());
-        CommentEntity.setContents(inputComment.getContents());
-        CommentEntity.setPassword(inputComment.getPassword());
-        CommentEntity.setUpdated_Time(inputComment.getUpdatedTime());
-
+        CommentEntity CommentEntity = new CommentEntity(inputComment);
         CommentEntity = commentdao.putCommentEntity(CommentEntity);
 
         if (CommentEntity == null) {
             log.error("수정하신 댓글을 저장하지 못하였습니다.");
         }
 
-
-        returnComment.setArticleIndex(CommentEntity.getArticleIndex());
-        returnComment.setCommentIndex(CommentEntity.getCommentIndex());
-        returnComment.setNickName(CommentEntity.getNickName());
-        returnComment.setContents(CommentEntity.getContents());
-        returnComment.setUpdatedTime(CommentEntity.getUpdated_Time());
-
-
+        Comment returnComment = new Comment(CommentEntity);
          return returnComment;
     }
 
@@ -208,15 +173,8 @@ public class CommentEntryService {
             return null;
         }
 
-        CommentEntity CommentEntity = new CommentEntity();
-        Comment returnComment = new Comment();
+        CommentEntity CommentEntity = new CommentEntity(inputComment);
 
-
-
-
-        CommentEntity.setArticleIndex(inputComment.getArticleIndex());
-        CommentEntity.setCommentIndex(inputComment.getCommentIndex());
-        CommentEntity.setPassword(inputComment.getPassword());
 
         CommentEntity = commentdao.deleteEntity(CommentEntity);
 
@@ -224,13 +182,7 @@ public class CommentEntryService {
             log.error("지우고자 하는 댓글을 지우지 못하였습니다.");
         }
 
-        returnComment.setArticleIndex(CommentEntity.getArticleIndex());
-        returnComment.setCommentIndex(CommentEntity.getCommentIndex());
-        returnComment.setNickName(CommentEntity.getNickName());
-        returnComment.setContents(CommentEntity.getContents());
-        returnComment.setCreatedTime(CommentEntity.getCreated_Time());
-        returnComment.setUpdatedTime(CommentEntity.getUpdated_Time());
-
+        Comment returnComment = new Comment(CommentEntity);
 
         return returnComment;
     }
