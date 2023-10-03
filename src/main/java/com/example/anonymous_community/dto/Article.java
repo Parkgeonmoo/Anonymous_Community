@@ -7,14 +7,16 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ArticleRequest {
+public class Article {
 
-    public ArticleRequest(ArticleEntity articleEntity) {
+    public Article(ArticleEntity articleEntity) {
         this.articleIndex = articleEntity.getArticleIndex();
         this.title = articleEntity.getTitle();
         this.nickName = articleEntity.getNickname();
         this.contents = articleEntity.getContents();
         this.password = articleEntity.getPassword();
+        this.createdTime = articleEntity.getCreatedTime();
+        this.updatedTime = articleEntity.getUpdatedTime();
     }
 
     private String articleIndex;
@@ -22,6 +24,10 @@ public class ArticleRequest {
     private String nickName;
     private String contents;
     private String password;
+    private String createdTime;
+    private String updatedTime;
+
+
 
 
 }

@@ -1,10 +1,7 @@
 package com.example.anonymous_community.controller;
 
 
-import com.example.anonymous_community.dto.CommentRequest;
-import com.example.anonymous_community.service.comment.command.CommentDeleteService;
-import com.example.anonymous_community.service.comment.command.CommentUpdateService;
-import com.example.anonymous_community.service.comment.query.CommentListService;
+import com.example.anonymous_community.dto.Comment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import com.example.anonymous_community.service.comment.command.CommentEntryService;
+import com.example.anonymous_community.service.CommentEntryService;
 
 import java.util.List;
 
@@ -26,17 +23,16 @@ import java.util.List;
 public class CommentController {
 
     private final CommentEntryService commentEntryService;
-    private final CommentListService commentListService;
-    private final CommentUpdateService commentUpdateService;
-    private final CommentDeleteService commentDeleteService;
 
 
     @PostMapping("/comment")
-    public ResponseEntity doPostAsComment(@RequestBody CommentRequest inputCommentRequest) {
-        try {
-            commentEntryService.postCommentService(inputCommentRequest);
-            return ResponseEntity.ok().build();
-        } catch(Exception e) {
+    public ResponseEntity doPostAsComment(@RequestBody Comment inputComment) {
+
+        Comment result = commentEntryService.postCommentService(inputComment);
+
+        if (result != null) {
+            return ResponseEntity.ok(result);
+        } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -46,7 +42,8 @@ public class CommentController {
 
     @GetMapping("/comment")
     public ResponseEntity doGetAsComment(String articleIndex) {
-        List<CommentRequest> result = commentListService.getCommentService(articleIndex);
+        List<Comment> result = commentEntryService.getCommentService(articleIndex);
+
         if (result != null) {
             return ResponseEntity.ok(result);
         }else {
@@ -58,22 +55,23 @@ public class CommentController {
 
 
     @PutMapping("/comment")
-    public ResponseEntity doPutAsComment(@RequestBody CommentRequest inputCommentRequest) {
-        try {
-            commentUpdateService.putCommentService(inputCommentRequest);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
+    public ResponseEntity doPutAsComment(@RequestBody Comment inputComment) {
+        Comment result = commentEntryService.putCommentService(inputComment);
+        if (result != null) {
+            return ResponseEntity.ok(result);
+        }else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
 
+
     @DeleteMapping("/comment")
-    public ResponseEntity doDeleteAsComment(@RequestBody CommentRequest inputCommentRequest) {
-        try {
-            commentDeleteService.deleteCommentService(inputCommentRequest);
-            return ResponseEntity.ok().build();
-        } catch(Exception e) {
+    public ResponseEntity doDeleteAsComment(@RequestBody Comment inputComment) {
+        Comment result = commentEntryService.deleteCommentService(inputComment);
+        if (result != null) {
+            return ResponseEntity.ok(result);
+        }else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 

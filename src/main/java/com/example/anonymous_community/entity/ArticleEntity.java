@@ -1,6 +1,6 @@
 package com.example.anonymous_community.entity;
 
-import com.example.anonymous_community.dto.ArticleRequest;
+import com.example.anonymous_community.dto.Article;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 @Table(name = "article_tb")
 public class ArticleEntity {
 
-    public ArticleEntity(ArticleRequest inputArticleRequest) {
-        this.articleIndex = inputArticleRequest.getArticleIndex();
-        this.title = inputArticleRequest.getTitle();
-        this.nickname = inputArticleRequest.getNickName();
-        this.contents = inputArticleRequest.getContents();
-        this.password = inputArticleRequest.getPassword();
+    public ArticleEntity(Article inputArticle) {
+        this.articleIndex = inputArticle.getArticleIndex();
+        this.title = inputArticle.getTitle();
+        this.nickname = inputArticle.getNickName();
+        this.contents = inputArticle.getContents();
+        this.password = inputArticle.getPassword();
         this.createdTime = LocalDateTime.now().toString();
         this.updatedTime = LocalDateTime.now().toString();
     }

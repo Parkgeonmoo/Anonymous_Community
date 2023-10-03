@@ -1,8 +1,7 @@
 package com.example.anonymous_community.entity;
 
-import com.example.anonymous_community.dto.CommentRequest;
+import com.example.anonymous_community.dto.Comment;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,16 +13,19 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@NoArgsConstructor
 @Table(name = "comment_tb")
 public class CommentEntity {
 
-    public CommentEntity(CommentRequest commentRequest) {
-        this.commentIndex = commentRequest.getCommentIndex();
-        this.articleIndex = commentRequest.getArticleIndex();
-        this.nickName = commentRequest.getNickName();
-        this.contents = commentRequest.getContents();
-        this.password = commentRequest.getPassword();
+    public CommentEntity() {
+
+    }
+
+    public CommentEntity(Comment comment) {
+        this.commentIndex = comment.getCommentIndex();
+        this.articleIndex = comment.getArticleIndex();
+        this.nickName = comment.getNickName();
+        this.contents = comment.getContents();
+        this.password = comment.getPassword();
         this.createdTime = LocalDateTime.now().toString();
         this.updatedTime = LocalDateTime.now().toString();
     }
