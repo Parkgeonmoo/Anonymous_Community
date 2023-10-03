@@ -65,7 +65,7 @@ public class ArticleDao {
                 existingArticle.setUpdatedTime(ArticleEntity.getUpdatedTime());
 
 
-                returnArticleEntity = articleRepository.save(existingArticle);
+
             } else {
                 throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
             }
