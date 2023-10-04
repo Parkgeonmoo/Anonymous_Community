@@ -3,6 +3,7 @@ package com.example.anonymous_community.service.article.query;
 import com.example.anonymous_community.dao.ArticleDao;
 import com.example.anonymous_community.dto.ArticleRequest;
 import com.example.anonymous_community.entity.ArticleEntity;
+import com.example.anonymous_community.repository.ArticleRepositorySupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ArticleOneService {
 
-    private final ArticleDao articledao;
+    private final ArticleRepositorySupport articleRepositorySupport;
 
     @Transactional(readOnly=true)
     public ArticleRequest getArticleService(String articleIndex) {
@@ -32,7 +33,8 @@ public class ArticleOneService {
             return null;
         }
 
-        ArticleEntity ArticleEntity = articledao.getArticleEntity(articleIndex);
+
+        ArticleEntity ArticleEntity = articleRepositorySupport.findByIndex(articleIndex);
 
 
         if (ArticleEntity == null) {

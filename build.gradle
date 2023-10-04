@@ -44,8 +44,8 @@ dependencies {
     implementation("net.gpedro.integrations.slack:slack-webhook:1.4.0")
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-    implementation "com.querydsl:querydsl-jpa:5.0.0"
-    implementation "com.querydsl:querydsl-apt:5.0.0"
+    implementation 'com.querydsl:querydsl-jpa'
+    implementation 'com.querydsl:querydsl-apt'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 
 
