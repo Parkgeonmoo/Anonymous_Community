@@ -5,10 +5,15 @@ import com.example.anonymous_community.entity.ArticleEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+ /**
+ * 게시글 삭제 service
+ *
+ * @author parkgeonwoo
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -16,18 +21,21 @@ public class ArticleDeleteService {
 
     private final ArticleDao articledao;
 
+     /**
+      * 게시글 삭제
+      *
+      * @param articleIndex 게시글 고유번호
+      * @param password 게시글 비밀번호
+      */
     @Transactional
-    public void deleteArticleService(String articleIndex, String password){
+    public void delete(String articleIndex, String password) {
 
-        int index;
-        try {
-            index = Integer.parseInt(articleIndex);
-        } catch (NumberFormatException e) {
+        if (!NumberUtils.isDigits(articleIndex)){
             log.error("해당 글을 지울 수 없습니다.");
             return;
         }
 
-        if (index <= 0) {
+        if (NumberUtils.toInt(articleIndex) <= 0) {
             log.error("해당 글을 지울 수 없습니다.");
             return;
         }
@@ -37,12 +45,9 @@ public class ArticleDeleteService {
             return;
         }
 
-        ArticleEntity returnArticleEntity = articledao.deleteArticleEntity(articleIndex,password);
-
+        final ArticleEntity returnArticleEntity = articledao.delete(articleIndex,password);
         if (returnArticleEntity == null) {
             log.error("지우고자 하는 글이 존재하지 않습니다.");
-            return;
         }
-
     }
 }

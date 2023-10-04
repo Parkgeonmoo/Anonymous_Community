@@ -1,71 +1,66 @@
 package com.example.anonymous_community.service.comment.command;
 
-
 import com.example.anonymous_community.dto.CommentRequest;
 import com.example.anonymous_community.entity.CommentEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 import com.example.anonymous_community.dao.CommentDao;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+/**
+ * 댓글 등록 service
+ *
+ * @author parkgeonwoo
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class CommentEntryService {
     private final CommentDao commentdao;
 
+    /**
+     * 댓글 등록
+     *
+     * @param inputCommentRequest {@link CommentRequest}
+     */
     @Transactional
-    public void postCommentService(CommentRequest inputCommentRequest) {
+    public void entry(CommentRequest inputCommentRequest) {
 
-        int index = 0;
-
-        try{
-            index = Integer.parseInt(inputCommentRequest.getArticleIndex());
-        } catch(NumberFormatException e) {
+        final String articleIndex = inputCommentRequest.getArticleIndex();
+        if (!NumberUtils.isDigits(articleIndex)){
             log.error("해당 댓글을 작성하실 수 없습니다.");
             return;
         }
 
-        if (index <= 0) {
+        if (NumberUtils.toInt(articleIndex) <= 0) {
             log.error("해당 댓글을 작성하실 수 없습니다.");
             return;
         }
 
-        if (inputCommentRequest.getNickName() == null) {
+        if (StringUtils.isBlank(inputCommentRequest.getNickName())) {
             log.error("닉네임이 비어있습니다.");
             return;
         }
 
-        if (inputCommentRequest.getContents() == null) {
+        if (StringUtils.isBlank(inputCommentRequest.getContents())) {
             log.error("댓글 내용이 비어있습니다.");
             return;
         }
 
-        if (inputCommentRequest.getPassword() == null) {
+        if (StringUtils.isBlank(inputCommentRequest.getPassword())) {
             log.error("댓글 비밀번호가 비어있습니다.");
             return;
         }
 
-
-        LocalDateTime now = LocalDateTime.now();
-
-
-
-        CommentEntity CommentEntity = new CommentEntity(inputCommentRequest);
-
-
-        CommentEntity = commentdao.postCommentEntity(CommentEntity);
-
-        if (CommentEntity == null) {
+        final CommentEntity CommentEntity = new CommentEntity(inputCommentRequest);
+        if (commentdao.entry(CommentEntity) == null) {
             log.error("작성하신 댓글을 저장하지 못하였습니다.");
-            return;
         }
-
-
-
     }
-
 }

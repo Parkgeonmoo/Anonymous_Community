@@ -6,8 +6,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * 댓글 Repository
+ *
+ * @author parkgeonwoo
+ */
 @Repository
-public interface CommentRepository extends JpaRepository<CommentEntity,String> {
+public interface CommentRepository extends JpaRepository<CommentEntity, String> {
     List<CommentEntity> findByArticleIndex(String articleIndex);
     CommentEntity findByArticleIndexAndCommentIndex(String articleIndex, String commentIndex);
 }

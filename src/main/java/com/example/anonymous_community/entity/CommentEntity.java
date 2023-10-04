@@ -12,21 +12,16 @@ import javax.persistence.Column;
 import javax.persistence.GenerationType;
 import java.time.LocalDateTime;
 
+/**
+ * 댓글 Entity
+ *
+ * @author parkgeonwoo
+ */
 @Data
 @Entity
 @NoArgsConstructor
 @Table(name = "comment_tb")
 public class CommentEntity {
-
-    public CommentEntity(CommentRequest commentRequest) {
-        this.commentIndex = commentRequest.getCommentIndex();
-        this.articleIndex = commentRequest.getArticleIndex();
-        this.nickName = commentRequest.getNickName();
-        this.contents = commentRequest.getContents();
-        this.password = commentRequest.getPassword();
-        this.createdTime = LocalDateTime.now().toString();
-        this.updatedTime = LocalDateTime.now().toString();
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +46,14 @@ public class CommentEntity {
     @Column(name ="updated_Time")
     private String updatedTime;
 
-
-
+    public CommentEntity(CommentRequest commentRequest) {
+        this.commentIndex = commentRequest.getCommentIndex();
+        this.articleIndex = commentRequest.getArticleIndex();
+        this.nickName = commentRequest.getNickName();
+        this.contents = commentRequest.getContents();
+        this.password = commentRequest.getPassword();
+        this.createdTime = LocalDateTime.now().toString();
+        this.updatedTime = LocalDateTime.now().toString();
+    }
 
 }
