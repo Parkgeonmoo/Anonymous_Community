@@ -3,6 +3,7 @@ package com.example.anonymous_community.service.comment.query;
 import com.example.anonymous_community.dao.CommentDao;
 import com.example.anonymous_community.dto.CommentRequest;
 import com.example.anonymous_community.entity.CommentEntity;
+import com.example.anonymous_community.repository.CommentRepositoySupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.List;
 @Slf4j
 public class CommentListService {
     private final CommentDao commentdao;
+    private final CommentRepositoySupport commentRepositoySupport;
 
     @Transactional(readOnly = true)
     public List<CommentRequest> getCommentService(String articleIndex) {
@@ -37,16 +39,14 @@ public class CommentListService {
 
 
         List<CommentRequest> returnCommentRequests = new ArrayList<>();
-        List<CommentEntity> CommentEntity = new ArrayList<>();
+        List<CommentEntity> commentEntities = commentRepositoySupport.findByIndex(articleIndex);
 
-        CommentEntity = commentdao.getCommentEntities(articleIndex);
-
-        if (CommentEntity == null) {
+        if (commentEntities == null) {
             log.error("조회하신 댓글이 존재하지 않습니다.");
         }
 
 
-        for (CommentEntity temp : CommentEntity) {
+        for (CommentEntity temp : commentEntities) {
             CommentRequest tempCommentRequest = new CommentRequest(temp);
             returnCommentRequests.add(tempCommentRequest);
         }

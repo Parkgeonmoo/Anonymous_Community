@@ -1,11 +1,10 @@
 package com.example.anonymous_community.service.article.query;
 
-import com.example.anonymous_community.dao.ArticleDao;
 import com.example.anonymous_community.dto.ArticleRequest;
 import com.example.anonymous_community.entity.ArticleEntity;
+import com.example.anonymous_community.repository.ArticleRepositorySupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,7 @@ import java.util.List;
 @Service
 public class ArticleListService {
 
-    private final ArticleDao articledao;
+    private final ArticleRepositorySupport articleRepositorySupport;
 
     @Transactional(readOnly = true)
     public List<ArticleRequest> getArticlesService(int page, int limit) {
@@ -33,11 +32,10 @@ public class ArticleListService {
             limit = 20;
         }
 
-
-        Page<ArticleEntity> pageArticleEntity = articledao.getArticlesEntity(page,limit);
+        List<ArticleEntity> articleEntities = articleRepositorySupport.findFirst(page,limit);
         List<ArticleRequest> articleRequests = new ArrayList<>();
 
-        for (ArticleEntity entity: pageArticleEntity.getContent()) {
+        for (ArticleEntity entity: articleEntities) {
             ArticleRequest art = new ArticleRequest(entity);
             articleRequests.add(art);
         }
