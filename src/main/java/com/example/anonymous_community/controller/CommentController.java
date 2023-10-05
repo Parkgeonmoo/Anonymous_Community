@@ -1,6 +1,5 @@
 package com.example.anonymous_community.controller;
 
-
 import com.example.anonymous_community.dto.CommentRequest;
 import com.example.anonymous_community.service.comment.command.CommentDeleteService;
 import com.example.anonymous_community.service.comment.command.CommentUpdateService;
@@ -19,7 +18,11 @@ import com.example.anonymous_community.service.comment.command.CommentEntryServi
 
 import java.util.List;
 
-
+/**
+ * 댓글 controller
+ *
+ * @author parkgeonwoo
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/comment")
@@ -30,53 +33,68 @@ public class CommentController {
     private final CommentUpdateService commentUpdateService;
     private final CommentDeleteService commentDeleteService;
 
-
+    /**
+     * 댓글 등록 요청
+     *
+     * @param param {@link CommentRequest} 댓글 등록 요청 파라미터
+     * @return {@link ResponseEntity}
+     */
     @PostMapping("/comment")
-    public ResponseEntity doPostAsComment(@RequestBody CommentRequest inputCommentRequest) {
+    public ResponseEntity doPostAsComment(@RequestBody CommentRequest param) {
         try {
-            commentEntryService.postCommentService(inputCommentRequest);
+            commentEntryService.entry(param);
             return ResponseEntity.ok().build();
         } catch(Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-
-
-
+    /**
+     * 댓글 조회
+     *
+     * @param articleIndex 게시글 고유번호
+     * @return {@link ResponseEntity}
+     */
     @GetMapping("/comment")
     public ResponseEntity doGetAsComment(String articleIndex) {
-        List<CommentRequest> result = commentListService.getCommentService(articleIndex);
+        final List<CommentRequest> result = commentListService.getList(articleIndex);
         if (result != null) {
             return ResponseEntity.ok(result);
         }else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
     }
 
-
-
+    /**
+     * 댓글 수정 요청
+     *
+     * @param param {@link CommentRequest} 댓글 수정 요청 파라미터
+     * @return {@link ResponseEntity}
+     */
     @PutMapping("/comment")
-    public ResponseEntity doPutAsComment(@RequestBody CommentRequest inputCommentRequest) {
+    public ResponseEntity doPutAsComment(@RequestBody CommentRequest param) {
         try {
-            commentUpdateService.putCommentService(inputCommentRequest);
+            commentUpdateService.putCommentService(param);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-
+    /**
+     * 댓글 삭제 요청
+     *
+     * @param param {@link CommentRequest} 댓글 삭제 요청 파라미터
+     * @return {@link ResponseEntity}
+     *
+     */
     @DeleteMapping("/comment")
-    public ResponseEntity doDeleteAsComment(@RequestBody CommentRequest inputCommentRequest) {
+    public ResponseEntity doDeleteAsComment(@RequestBody CommentRequest param) {
         try {
-            commentDeleteService.deleteCommentService(inputCommentRequest);
+            commentDeleteService.delete(param);
             return ResponseEntity.ok().build();
         } catch(Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
     }
-
 }

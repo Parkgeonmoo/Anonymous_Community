@@ -32,8 +32,6 @@ public class SwaggerConfiguration {
                 .description("익명 게시판 REST API 명세서")
                 .version("1.0.0")
                 .build();
-
-
     }
 
 }

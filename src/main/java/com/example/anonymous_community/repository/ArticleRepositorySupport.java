@@ -9,6 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * 게시글 support
+ *
+ * @author parkgeonwoo
+ */
 @Repository
 public class ArticleRepositorySupport extends QuerydslRepositorySupport {
 
@@ -20,8 +25,7 @@ public class ArticleRepositorySupport extends QuerydslRepositorySupport {
     }
 
     public ArticleEntity findByIndex(String index) {
-        QArticleEntity qArticleEntity = QArticleEntity.articleEntity;
-
+        final QArticleEntity qArticleEntity = QArticleEntity.articleEntity;
         return jpaQueryFactory
                 .selectFrom(qArticleEntity)
                 .where(qArticleEntity.articleIndex.eq(index))
@@ -29,8 +33,7 @@ public class ArticleRepositorySupport extends QuerydslRepositorySupport {
     }
 
     public List<ArticleEntity> findFirst(int page, int limit) {
-        QArticleEntity qArticleEntity = QArticleEntity.articleEntity;
-
+        final QArticleEntity qArticleEntity = QArticleEntity.articleEntity;
         return jpaQueryFactory
                 .selectFrom(qArticleEntity)
                 .orderBy(qArticleEntity.articleIndex.asc())  // 선택적: 내림차순 정렬
@@ -38,6 +41,4 @@ public class ArticleRepositorySupport extends QuerydslRepositorySupport {
                 .limit(limit)
                 .fetch();
     }
-
-
 }

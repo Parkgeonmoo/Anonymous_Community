@@ -6,31 +6,35 @@ import com.example.anonymous_community.entity.CommentEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+/**
+ * 댓글 수정 service
+ *
+ * @author parkgeonwoo
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class CommentUpdateService {
     private final CommentDao commentdao;
 
+    /**
+     * 댓글 수정
+     *
+     * @param inputCommentRequest {@link CommentRequest}
+     */
     @Transactional
     public void putCommentService(CommentRequest inputCommentRequest) {
 
-        int articleIndex = 0;
-        int commentIndex = 0;
-
-        try{
-            articleIndex = Integer.parseInt(inputCommentRequest.getArticleIndex());
-            commentIndex = Integer.parseInt(inputCommentRequest.getCommentIndex());
-        } catch(NumberFormatException e) {
+        final String articleIndex = inputCommentRequest.getArticleIndex();
+        final String commentIndex = inputCommentRequest.getCommentIndex();
+        if (!NumberUtils.isDigits(articleIndex) || !NumberUtils.isDigits(commentIndex)) {
             log.error("해당 댓글을 조회하실 수 없습니다.");
             return;
-        }
-
-        if (articleIndex <= 0 || commentIndex <= 0) {
+        } else if (NumberUtils.toInt(articleIndex) <= 0 || NumberUtils.toInt(commentIndex) <= 0) {
             log.error("해당 댓글을 조회하실 수 없습니다.");
             return;
         }
@@ -45,15 +49,9 @@ public class CommentUpdateService {
             return;
         }
 
-
-
-        CommentEntity CommentEntity = new CommentEntity(inputCommentRequest);
-        CommentEntity = commentdao.putCommentEntity(CommentEntity);
-
-        if (CommentEntity == null) {
+        final CommentEntity CommentEntity = new CommentEntity(inputCommentRequest);
+        if (commentdao.update(CommentEntity) == null) {
             log.error("수정하신 댓글을 저장하지 못하였습니다.");
         }
-
-
     }
 }

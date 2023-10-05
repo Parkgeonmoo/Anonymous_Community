@@ -9,7 +9,11 @@ import com.example.anonymous_community.dto.ArticleRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
-
+/**
+ * 게시글 등록 service
+ *
+ * @author parkgeonwoo
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -17,8 +21,13 @@ public class ArticleEntryService {
 
     private final ArticleDao articledao;
 
+    /**
+     * 게시글 등록
+     *
+     * @param inputArticleRequest {@link ArticleRequest}
+     */
     @Transactional
-    public void postArticleService(ArticleRequest inputArticleRequest) {
+    public void entry(ArticleRequest inputArticleRequest) {
 
         if (StringUtils.isBlank(inputArticleRequest.getTitle())) {
             log.error("입력하신 글의 제목이 비어있습니다.");
@@ -40,16 +49,7 @@ public class ArticleEntryService {
             return;
         }
 
-
-        ArticleEntity returnArticleEntity = new ArticleEntity(inputArticleRequest);
-
-        returnArticleEntity = articledao.postArticleEntity(returnArticleEntity);
-
-        if (returnArticleEntity == null) {
-            log.error("입력하신 글이 정상적으로 저장되지 않았습니다.");
-            return;
-        }
-
-
+        final ArticleEntity returnArticleEntity = new ArticleEntity(inputArticleRequest);
+        articledao.entry(returnArticleEntity);
     }
 }

@@ -9,6 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * 댓글 support
+ *
+ * @author parkgeonwoo
+ */
 @Repository
 public class CommentRepositoySupport extends QuerydslRepositorySupport {
 
@@ -21,7 +26,6 @@ public class CommentRepositoySupport extends QuerydslRepositorySupport {
 
     public List<CommentEntity> findByIndex(String index) {
         QCommentEntity qCommentEntity = QCommentEntity.commentEntity;
-
         return jpaQueryFactory
                 .selectFrom(qCommentEntity)
                 .where(qCommentEntity.articleIndex.eq(index))

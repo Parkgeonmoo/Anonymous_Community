@@ -7,28 +7,16 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * 게시글 Entity
+ *
+ * @author parkgeonwoo
+ */
 @Data
 @Entity
 @NoArgsConstructor
 @Table(name = "article_tb")
 public class ArticleEntity {
-
-    public ArticleEntity(ArticleRequest inputArticleRequest) {
-        this.articleIndex = inputArticleRequest.getArticleIndex();
-        this.title = inputArticleRequest.getTitle();
-        this.nickname = inputArticleRequest.getNickName();
-        this.contents = inputArticleRequest.getContents();
-        this.password = inputArticleRequest.getPassword();
-        this.createdTime = LocalDateTime.now().toString();
-        this.updatedTime = LocalDateTime.now().toString();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedTime = LocalDateTime.now().toString();
-    }
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +41,19 @@ public class ArticleEntity {
     @Column(name="updated_time")
     private String updatedTime;
 
+    public ArticleEntity(ArticleRequest inputArticleRequest) {
+        this.articleIndex = inputArticleRequest.getArticleIndex();
+        this.title = inputArticleRequest.getTitle();
+        this.nickname = inputArticleRequest.getNickName();
+        this.contents = inputArticleRequest.getContents();
+        this.password = inputArticleRequest.getPassword();
+        this.createdTime = LocalDateTime.now().toString();
+        this.updatedTime = LocalDateTime.now().toString();
+    }
 
-
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedTime = LocalDateTime.now().toString();
+    }
 
 }

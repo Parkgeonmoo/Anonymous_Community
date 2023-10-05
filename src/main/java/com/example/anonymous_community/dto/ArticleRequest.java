@@ -4,10 +4,20 @@ import com.example.anonymous_community.entity.ArticleEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+/**
+ * 게시글 파라미터 Dto
+ *
+ * @author parkgeonwoo
+ */
 @Data
 @NoArgsConstructor
 public class ArticleRequest {
+
+    private String articleIndex;
+    private String title;
+    private String nickName;
+    private String contents;
+    private String password;
 
     public ArticleRequest(ArticleEntity articleEntity) {
         this.articleIndex = articleEntity.getArticleIndex();
@@ -16,12 +26,5 @@ public class ArticleRequest {
         this.contents = articleEntity.getContents();
         this.password = articleEntity.getPassword();
     }
-
-    private String articleIndex;
-    private String title;
-    private String nickName;
-    private String contents;
-    private String password;
-
 
 }
