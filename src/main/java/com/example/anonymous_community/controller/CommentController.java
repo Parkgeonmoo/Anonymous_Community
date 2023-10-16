@@ -1,6 +1,7 @@
 package com.example.anonymous_community.controller;
 
-import com.example.anonymous_community.dto.CommentRequest;
+import com.example.anonymous_community.dto.request.CommentRequest;
+import com.example.anonymous_community.dto.response.ApiResponse;
 import com.example.anonymous_community.service.comment.command.CommentDeleteService;
 import com.example.anonymous_community.service.comment.command.CommentUpdateService;
 import com.example.anonymous_community.service.comment.query.CommentListService;
@@ -45,7 +46,7 @@ public class CommentController {
             commentEntryService.entry(param);
             return ResponseEntity.ok().build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "댓글 등록에 실패했습니다.", null));
         }
     }
 
@@ -57,11 +58,15 @@ public class CommentController {
      */
     @GetMapping("/comment")
     public ResponseEntity doGetAsComment(String articleIndex) {
-        final List<CommentRequest> result = commentListService.getList(articleIndex);
-        if (result != null) {
-            return ResponseEntity.ok(result);
-        }else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        try {
+            final List<CommentRequest> result = commentListService.getList(articleIndex);
+            if (result != null) {
+                return ResponseEntity.ok(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "fail", null));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "댓글 조회에 실패했습니다.", null));
         }
     }
 
@@ -77,7 +82,7 @@ public class CommentController {
             commentUpdateService.putCommentService(param);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "댓글 수정에 실패했습니다.", null));
         }
     }
 
@@ -94,7 +99,7 @@ public class CommentController {
             commentDeleteService.delete(param);
             return ResponseEntity.ok().build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "댓글 삭제에 실패했습니다.", null));
         }
     }
 }
