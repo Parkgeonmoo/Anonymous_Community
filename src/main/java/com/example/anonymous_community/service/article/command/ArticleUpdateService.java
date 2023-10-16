@@ -1,7 +1,7 @@
 package com.example.anonymous_community.service.article.command;
 
 import com.example.anonymous_community.dao.ArticleDao;
-import com.example.anonymous_community.dto.ArticleRequest;
+import com.example.anonymous_community.dto.request.ArticleRequest;
 import com.example.anonymous_community.entity.ArticleEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

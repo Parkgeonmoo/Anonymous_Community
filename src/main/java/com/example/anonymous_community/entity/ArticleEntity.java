@@ -1,6 +1,6 @@
 package com.example.anonymous_community.entity;
 
-import com.example.anonymous_community.dto.ArticleRequest;
+import com.example.anonymous_community.dto.request.ArticleRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
