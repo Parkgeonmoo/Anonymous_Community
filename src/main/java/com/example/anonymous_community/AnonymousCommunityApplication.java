@@ -13,7 +13,7 @@ public class AnonymousCommunityApplication {
     public static void main(String[] args) {
         SpringApplication.run(AnonymousCommunityApplication.class, args);
 
-            //log.error("에러 테스트");
+        //log.error("에러 테스트");
 
     }
 }
