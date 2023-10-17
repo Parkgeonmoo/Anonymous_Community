@@ -49,7 +49,7 @@ public class ArticleController {
             articleEntryService.entry(param);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "게시글 등록에 실패했습니다.", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "게시글 등록에 실패했습니다.", null));
         }
     }
 
@@ -67,10 +67,10 @@ public class ArticleController {
             if (result != null) {
                 return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "success", result));
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "fail", null));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "fail", null));
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "게시글 목록 조회에 실패했습니다.", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "게시글 목록 조회에 실패했습니다.", null));
         }
     }
     //API 통신은 성공을 했음 200 , 200 -> httpbody ->timestamp
@@ -88,10 +88,10 @@ public class ArticleController {
             if (result != null) {
                 return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "success", result));
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "fail", null));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "fail", null));
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "게시글 목록 조회에 실패했습니다.", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "게시글 목록 조회에 실패했습니다.", null));
         }
     }
 
@@ -107,7 +107,7 @@ public class ArticleController {
             articleUpdateService.putArticleService(param);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "게시글 수정에 실패했습니다.", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "게시글 수정에 실패했습니다.", null));
         }
     }
 
@@ -123,7 +123,7 @@ public class ArticleController {
             articleDeleteService.delete(articleIndex, password);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "게시글 삭제에 실패했습니다.", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "게시글 삭제에 실패했습니다.", null));
         }
     }
 }

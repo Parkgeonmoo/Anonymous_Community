@@ -46,7 +46,7 @@ public class CommentController {
             commentEntryService.entry(param);
             return ResponseEntity.ok().build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "댓글 등록에 실패했습니다.", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "댓글 등록에 실패했습니다.", null));
         }
     }
 
@@ -63,10 +63,10 @@ public class CommentController {
             if (result != null) {
                 return ResponseEntity.ok(result);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "fail", null));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "fail", null));
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "댓글 조회에 실패했습니다.", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "댓글 조회에 실패했습니다.", null));
         }
     }
 
@@ -82,7 +82,7 @@ public class CommentController {
             commentUpdateService.putCommentService(param);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "댓글 수정에 실패했습니다.", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "댓글 수정에 실패했습니다.", null));
         }
     }
 
@@ -99,7 +99,7 @@ public class CommentController {
             commentDeleteService.delete(param);
             return ResponseEntity.ok().build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "댓글 삭제에 실패했습니다.", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "댓글 삭제에 실패했습니다.", null));
         }
     }
 }
