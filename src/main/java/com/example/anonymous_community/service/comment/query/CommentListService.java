@@ -1,6 +1,6 @@
 package com.example.anonymous_community.service.comment.query;
 
-import com.example.anonymous_community.dto.CommentRequest;
+import com.example.anonymous_community.dto.request.CommentRequest;
 import com.example.anonymous_community.entity.CommentEntity;
 import com.example.anonymous_community.repository.CommentRepositoySupport;
 import lombok.RequiredArgsConstructor;

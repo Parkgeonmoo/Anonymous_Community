@@ -1,6 +1,6 @@
 package com.example.anonymous_community.service.article.query;
 
-import com.example.anonymous_community.dto.ArticleRequest;
+import com.example.anonymous_community.dto.request.ArticleRequest;
 import com.example.anonymous_community.entity.ArticleEntity;
 import com.example.anonymous_community.repository.ArticleRepositorySupport;
 import lombok.RequiredArgsConstructor;

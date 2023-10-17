@@ -5,7 +5,7 @@ import com.example.anonymous_community.dao.ArticleDao;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import com.example.anonymous_community.dto.ArticleRequest;
+import com.example.anonymous_community.dto.request.ArticleRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,22 +31,23 @@ public class ArticleEntryService {
 
         if (StringUtils.isBlank(inputArticleRequest.getTitle())) {
             log.error("입력하신 글의 제목이 비어있습니다.");
-            return;
+            throw new IllegalArgumentException();
+
         }
 
         if (StringUtils.isBlank(inputArticleRequest.getNickName())) {
             log.error("입력하신 글의 닉네임이 비어있습니다.");
-            return;
+            throw new IllegalArgumentException();
         }
 
         if (StringUtils.isBlank(inputArticleRequest.getContents())) {
             log.error("입력하신 글의 내용이 비어있습니다.");
-            return;
+            throw new IllegalArgumentException();
         }
 
         if (StringUtils.isBlank(inputArticleRequest.getPassword())) {
             log.error("입력하신 글의 비밀번호가 비어있습니다.");
-            return;
+            throw new IllegalArgumentException();
         }
 
         final ArticleEntity returnArticleEntity = new ArticleEntity(inputArticleRequest);

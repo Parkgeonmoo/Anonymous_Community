@@ -1,4 +1,4 @@
-package com.example.anonymous_community.dto;
+package com.example.anonymous_community.dto.request;
 
 import com.example.anonymous_community.entity.CommentEntity;
 import lombok.Data;

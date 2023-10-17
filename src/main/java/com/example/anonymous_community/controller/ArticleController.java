@@ -1,6 +1,7 @@
 package com.example.anonymous_community.controller;
 
-import com.example.anonymous_community.dto.ArticleRequest;
+import com.example.anonymous_community.dto.request.ArticleRequest;
+import com.example.anonymous_community.dto.response.ApiResponse;
 import com.example.anonymous_community.service.article.command.ArticleDeleteService;
 import com.example.anonymous_community.service.article.command.ArticleEntryService;
 import com.example.anonymous_community.service.article.command.ArticleUpdateService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
 
@@ -47,7 +49,7 @@ public class ArticleController {
             articleEntryService.entry(param);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "게시글 등록에 실패했습니다.", null));
         }
     }
 
@@ -60,13 +62,18 @@ public class ArticleController {
      */
     @GetMapping("/articles")
     public ResponseEntity doGetAsArticles(int page, int limit) {
-        final List<ArticleRequest> result = articleListService.getList(page, limit);
-        if (result != null) {
-            return ResponseEntity.ok(result);
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        try {
+            final List<ArticleRequest> result = articleListService.getList(page, limit);
+            if (result != null) {
+                return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "success", result));
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "fail", null));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "게시글 목록 조회에 실패했습니다.", null));
         }
     }
+    //API 통신은 성공을 했음 200 , 200 -> httpbody ->timestamp
 
     /**
      * 게시글 단건 조회 요청
@@ -76,11 +83,15 @@ public class ArticleController {
      */
     @GetMapping("/article")
     public ResponseEntity doGetAsArticle(String articleIndex) {
-        final ArticleRequest result = articleOneService.getOne(articleIndex);
-        if (result != null) {
-            return ResponseEntity.ok(result);
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        try {
+            final ArticleRequest result = articleOneService.getOne(articleIndex);
+            if (result != null) {
+                return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "success", result));
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "fail", null));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "게시글 목록 조회에 실패했습니다.", null));
         }
     }
 
@@ -96,7 +107,7 @@ public class ArticleController {
             articleUpdateService.putArticleService(param);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "게시글 수정에 실패했습니다.", null));
         }
     }
 
@@ -112,7 +123,7 @@ public class ArticleController {
             articleDeleteService.delete(articleIndex, password);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "게시글 삭제에 실패했습니다.", null));
         }
     }
 }

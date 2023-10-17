@@ -1,6 +1,5 @@
 package com.example.anonymous_community.repository;
 
-import com.example.anonymous_community.dto.ArticleRequest;
 import com.example.anonymous_community.entity.ArticleEntity;
 import com.example.anonymous_community.entity.QArticleEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
