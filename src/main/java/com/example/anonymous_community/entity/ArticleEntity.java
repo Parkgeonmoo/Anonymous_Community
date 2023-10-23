@@ -3,9 +3,14 @@ package com.example.anonymous_community.entity;
 import com.example.anonymous_community.dto.request.ArticleRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * 게시글 Entity
@@ -15,8 +20,9 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "article_tb")
-public class ArticleEntity {
+public class ArticleEntity extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +41,6 @@ public class ArticleEntity {
     @Column
     private String password;
 
-    @Column(name="created_time")
-    private String createdTime;
-
-    @Column(name="updated_time")
-    private String updatedTime;
 
     public ArticleEntity(ArticleRequest inputArticleRequest) {
         this.articleIndex = inputArticleRequest.getArticleIndex();
@@ -47,13 +48,9 @@ public class ArticleEntity {
         this.nickname = inputArticleRequest.getNickName();
         this.contents = inputArticleRequest.getContents();
         this.password = inputArticleRequest.getPassword();
-        this.createdTime = LocalDateTime.now().toString();
-        this.updatedTime = LocalDateTime.now().toString();
+
     }
 
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedTime = LocalDateTime.now().toString();
-    }
+
 
 }

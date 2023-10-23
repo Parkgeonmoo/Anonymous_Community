@@ -3,14 +3,14 @@ package com.example.anonymous_community.entity;
 import com.example.anonymous_community.dto.request.CommentRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Column;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * 댓글 Entity
@@ -20,8 +20,9 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "comment_tb")
-public class CommentEntity {
+public class CommentEntity extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,11 +41,6 @@ public class CommentEntity {
     @Column(name ="password",nullable = false)
     private String password;
 
-    @Column(name ="created_time")
-    private String createdTime;
-
-    @Column(name ="updated_Time")
-    private String updatedTime;
 
     public CommentEntity(CommentRequest commentRequest) {
         this.commentIndex = commentRequest.getCommentIndex();
@@ -52,8 +48,7 @@ public class CommentEntity {
         this.nickName = commentRequest.getNickName();
         this.contents = commentRequest.getContents();
         this.password = commentRequest.getPassword();
-        this.createdTime = LocalDateTime.now().toString();
-        this.updatedTime = LocalDateTime.now().toString();
+
     }
 
 }
