@@ -58,8 +58,7 @@ public class ArticleDao {
                 entity.setNickname(articleEntity.getNickname());
                 entity.setContents(articleEntity.getContents());
                 entity.setPassword(articleEntity.getPassword());
-                entity.setUpdatedTime(articleEntity.getUpdatedTime());
-                return entity;
+                return articleRepository.save(entity);
             } else {
                 throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
             }
