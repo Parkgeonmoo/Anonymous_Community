@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -19,9 +20,9 @@ public class CommentRepositoySupport extends QuerydslRepositorySupport {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public CommentRepositoySupport(JPAQueryFactory jpaQueryFactory) {
+    public CommentRepositoySupport(EntityManager entityManager) {
         super(CommentEntity.class);
-        this.jpaQueryFactory = jpaQueryFactory;  // 주입받은 JPAQueryFactory 인스턴스 저장
+        this.jpaQueryFactory = new JPAQueryFactory(entityManager);
     }
 
     public List<CommentEntity> findByIndex(String index) {

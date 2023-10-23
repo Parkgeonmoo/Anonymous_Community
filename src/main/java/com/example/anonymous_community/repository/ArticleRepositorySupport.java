@@ -3,9 +3,11 @@ package com.example.anonymous_community.repository;
 import com.example.anonymous_community.entity.ArticleEntity;
 import com.example.anonymous_community.entity.QArticleEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -18,11 +20,10 @@ public class ArticleRepositorySupport extends QuerydslRepositorySupport {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public ArticleRepositorySupport(JPAQueryFactory jpaQueryFactory) {
+    public ArticleRepositorySupport(EntityManager entityManager) {
         super(ArticleEntity.class);
-        this.jpaQueryFactory = jpaQueryFactory;  // 주입받은 JPAQueryFactory 인스턴스 저장
+        this.jpaQueryFactory = new JPAQueryFactory(entityManager);
     }
-
     public ArticleEntity findByIndex(String index) {
         final QArticleEntity qArticleEntity = QArticleEntity.articleEntity;
         return jpaQueryFactory
