@@ -8,7 +8,7 @@ import com.example.anonymous_community.global.common.ApiResponse;
 import com.example.anonymous_community.domain.comment.service.command.CommentDeleteService;
 import com.example.anonymous_community.domain.comment.service.command.CommentUpdateService;
 import com.example.anonymous_community.domain.comment.service.query.CommentListService;
-import com.example.anonymous_community.global.exception.StatusCode;
+import com.example.anonymous_community.global.exception.enums.StatusCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import com.example.anonymous_community.domain.comment.service.command.CommentEntryService;
 
 import javax.validation.Valid;

@@ -1,8 +1,9 @@
 package com.example.anonymous_community.domain.article.service.query;
 
-import com.example.anonymous_community.domain.article.dto.request.ArticleEntryRequest;
 import com.example.anonymous_community.domain.article.dto.response.ArticleGetListResponse;
 import com.example.anonymous_community.domain.article.entity.ArticleEntity;
+import com.example.anonymous_community.domain.article.exception.ArticleErrorCode;
+import com.example.anonymous_community.domain.article.exception.ArticleException;
 import com.example.anonymous_community.domain.article.repository.ArticleRepositorySupport;
 import com.example.anonymous_community.global.exception.BaseException;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.anonymous_community.global.exception.ErrorCode.ARTICLE_LIMIT_ERROR;
-import static com.example.anonymous_community.global.exception.ErrorCode.ARTICLE_PAGE_ERROR;
+
 
 /**
  * 게시글 목록 조회 service
@@ -41,10 +40,10 @@ public class ArticleListService {
     @Transactional(readOnly = true)
     public List<ArticleGetListResponse> getList(int page, int limit) {
         if (page <= 0) {
-            throw new BaseException(ARTICLE_PAGE_ERROR);
+            throw new ArticleException(ArticleErrorCode.ARTICLE_PAGE_ERROR);
         }
         if (limit <= 0) {
-            throw new BaseException(ARTICLE_LIMIT_ERROR);
+            throw new ArticleException(ArticleErrorCode.ARTICLE_LIMIT_ERROR);
         }
 
         final List<ArticleEntity> articleEntities = articleRepositorySupport.findFirst(page, limit);

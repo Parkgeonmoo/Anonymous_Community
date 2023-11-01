@@ -1,12 +1,10 @@
 package com.example.anonymous_community.domain.article.validation;
 
-import com.example.anonymous_community.global.common.ValidationCode;
-import com.example.anonymous_community.global.exception.ErrorCode;
+import com.example.anonymous_community.domain.article.exception.ArticleValidationCode;
+import com.example.anonymous_community.global.common.GlobalValidationCode;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
-import static com.example.anonymous_community.global.common.ValidationCode.ARTICLE_PASSWORD_ERROR;
 
 public class ArticlePasswordInputConstraintValidator implements ConstraintValidator<ArticlePasswordInputConstraint, String> {
 
@@ -22,7 +20,7 @@ public class ArticlePasswordInputConstraintValidator implements ConstraintValida
 
         if (!value.matches(PASSWORD_PATTERN)) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ValidationCode.ARTICLE_PASSWORD_ERROR.getMessage())
+            context.buildConstraintViolationWithTemplate(ArticleValidationCode.ARTICLE_PASSWORD_ERROR.getMessage())
                     .addConstraintViolation();
             return false;
         }

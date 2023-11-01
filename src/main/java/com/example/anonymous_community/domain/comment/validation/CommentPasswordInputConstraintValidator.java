@@ -1,5 +1,6 @@
 package com.example.anonymous_community.domain.comment.validation;
-import com.example.anonymous_community.global.common.ValidationCode;
+import com.example.anonymous_community.domain.comment.exception.CommentErrorCode;
+import com.example.anonymous_community.global.common.GlobalValidationCode;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -17,7 +18,7 @@ public class CommentPasswordInputConstraintValidator implements ConstraintValida
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (!value.matches(PASSWORD_PATTERN)) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ValidationCode.COMMENT_PASSWORD_ERROR.getMessage())
+            context.buildConstraintViolationWithTemplate(CommentErrorCode.COMMENT_PASSWORD_ERROR.getMessage())
                     .addConstraintViolation();
             return false;
         }

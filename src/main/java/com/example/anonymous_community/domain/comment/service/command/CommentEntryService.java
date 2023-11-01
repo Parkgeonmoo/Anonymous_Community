@@ -4,9 +4,9 @@ import com.example.anonymous_community.domain.article.repository.ArticleReposito
 import com.example.anonymous_community.domain.comment.dto.request.CommentEntryRequest;
 import com.example.anonymous_community.domain.comment.dto.response.CommentEntryResponse;
 import com.example.anonymous_community.domain.comment.entity.CommentEntity;
-import com.example.anonymous_community.domain.comment.repository.CommentRepository;
+import com.example.anonymous_community.domain.comment.exception.CommentErrorCode;
 import com.example.anonymous_community.global.exception.BaseException;
-import com.example.anonymous_community.global.exception.ErrorCode;
+import com.example.anonymous_community.global.exception.GlobalErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 import com.example.anonymous_community.domain.comment.dao.CommentDao;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-import static com.example.anonymous_community.global.exception.ErrorCode.COMMENT_ENTRY_ARTICLE_INDEX_FAIL_ERROR;
 
 /**
  * 댓글 등록 service
@@ -39,7 +36,7 @@ public class CommentEntryService {
     public CommentEntryResponse entry(CommentEntryRequest inputCommentEntryRequest) {
         System.out.println(inputCommentEntryRequest.getArticleIndex());
         articleRepository.findById(inputCommentEntryRequest.getArticleIndex())
-                .orElseThrow(() -> new BaseException(ErrorCode.COMMENT_ENTRY_ARTICLE_INDEX_FAIL_ERROR));
+                .orElseThrow(() -> new BaseException(CommentErrorCode.COMMENT_ENTRY_ARTICLE_INDEX_FAIL_ERROR));
 
 
          CommentEntity commentEntity = CommentEntity.builder()

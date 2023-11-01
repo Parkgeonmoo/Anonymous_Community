@@ -9,8 +9,7 @@ import com.example.anonymous_community.domain.article.service.command.ArticleEnt
 import com.example.anonymous_community.domain.article.service.command.ArticleUpdateService;
 import com.example.anonymous_community.domain.article.service.query.ArticleListService;
 import com.example.anonymous_community.domain.article.service.query.ArticleOneService;
-import com.example.anonymous_community.global.exception.BaseException;
-import com.example.anonymous_community.global.exception.StatusCode;
+import com.example.anonymous_community.global.exception.enums.StatusCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

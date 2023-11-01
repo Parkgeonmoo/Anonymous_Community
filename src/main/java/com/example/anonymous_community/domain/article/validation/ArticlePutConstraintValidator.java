@@ -1,7 +1,8 @@
 package com.example.anonymous_community.domain.article.validation;
 
 import com.example.anonymous_community.domain.article.dto.request.ArticleUpdateRequest;
-import com.example.anonymous_community.global.common.ValidationCode;
+import com.example.anonymous_community.domain.article.exception.ArticleErrorCode;
+import com.example.anonymous_community.global.common.GlobalValidationCode;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;
@@ -21,7 +22,7 @@ public class ArticlePutConstraintValidator implements ConstraintValidator<Articl
     public boolean isValid(ArticleUpdateRequest articleUpdateRequest, ConstraintValidatorContext context) {
         if (articleUpdateRequest.getArticleIndex() != null && articleUpdateRequest.getArticleIndex() < 0) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ValidationCode.ARTICLE_INDEX_PUT_ERROR.getMessage())
+            context.buildConstraintViolationWithTemplate(ArticleErrorCode.ARTICLE_INDEX_PUT_ERROR.getMessage())
                     .addPropertyNode("articleIndex")
                     .addConstraintViolation();
             return false;
@@ -29,7 +30,7 @@ public class ArticlePutConstraintValidator implements ConstraintValidator<Articl
 
         if (allColumns(articleUpdateRequest)) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ValidationCode.ARTICLE_NEED_ONE_ERROR.getMessage())
+            context.buildConstraintViolationWithTemplate(ArticleErrorCode.ARTICLE_NEED_ONE_ERROR.getMessage())
                     .addPropertyNode("title")
                     .addConstraintViolation();
             return false;

@@ -6,19 +6,17 @@ import com.example.anonymous_community.domain.comment.dto.request.CommentEntryRe
 import com.example.anonymous_community.domain.comment.dto.request.CommentUpdateRequest;
 import com.example.anonymous_community.domain.comment.dto.response.CommentUpdateResponse;
 import com.example.anonymous_community.domain.comment.entity.CommentEntity;
+import com.example.anonymous_community.domain.comment.exception.CommentErrorCode;
+import com.example.anonymous_community.domain.comment.exception.CommentException;
 import com.example.anonymous_community.domain.comment.repository.CommentRepository;
 import com.example.anonymous_community.global.exception.BaseException;
-import com.example.anonymous_community.global.exception.ErrorCode;
+import com.example.anonymous_community.global.exception.GlobalErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
-import static org.apache.tomcat.util.http.parser.HttpParser.isNumeric;
 
 /**
  * 댓글 수정 service
@@ -50,14 +48,14 @@ public class CommentUpdateService {
 
 
         articleRepository.findById(articleIndex)
-                .orElseThrow(() -> new BaseException(ErrorCode.COMMENT_PUT_ARTICLE_INDEX_FAIL_ERROR));
+                .orElseThrow(() -> new CommentException(CommentErrorCode.COMMENT_PUT_ARTICLE_INDEX_FAIL_ERROR));
         final Optional<CommentEntity> optionalCommentEntity = Optional.ofNullable(commentRepository.findById(commentIndex)
-                .orElseThrow(() -> new BaseException(ErrorCode.COMMENT_PUT_ARTICLE_INDEX_FAIL_ERROR)));
+                .orElseThrow(() -> new CommentException(CommentErrorCode.COMMENT_PUT_COMMENT_INDEX_FAIL_ERROR)));
 
         CommentEntity commentEntity = optionalCommentEntity.get();
 
         if (!password.equals(commentEntity.getPassword())) {
-            throw new BaseException(ErrorCode.COMMENT_UNVALID_PASSWORD_ERROR);
+            throw new CommentException(CommentErrorCode.COMMENT_UNVALID_PASSWORD_ERROR);
         }
 
         commentEntity.setAllColumns(inputCommentUpdateRequest);

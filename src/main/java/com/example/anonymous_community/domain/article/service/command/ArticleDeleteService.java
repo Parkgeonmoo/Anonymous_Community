@@ -3,16 +3,14 @@ package com.example.anonymous_community.domain.article.service.command;
 import com.example.anonymous_community.domain.article.dao.ArticleDao;
 import com.example.anonymous_community.domain.article.dto.response.ArticleDeleteResponse;
 import com.example.anonymous_community.domain.article.entity.ArticleEntity;
+import com.example.anonymous_community.domain.article.exception.ArticleErrorCode;
+import com.example.anonymous_community.domain.article.exception.ArticleException;
 import com.example.anonymous_community.domain.article.repository.ArticleRepository;
 import com.example.anonymous_community.global.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.example.anonymous_community.global.exception.ErrorCode.*;
 
 /**
  * 게시글 삭제 service
@@ -37,10 +35,10 @@ public class ArticleDeleteService {
     public ArticleDeleteResponse delete(Integer articleIndex, String password) {
 
         ArticleEntity articleEntity = articleRepository.findById(articleIndex)
-                .orElseThrow(() -> new BaseException(ARTICLE_INDEX_DELETE_ERROR));
+                .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_INDEX_DELETE_ERROR));
 
         if (!password.equals(articleEntity.getPassword())) {
-            throw new BaseException(ARTICLE_PASSWORD_NO_MATCH_ERROR);
+            throw new ArticleException(ArticleErrorCode.ARTICLE_PASSWORD_NO_MATCH_ERROR);
         }
 
         articleEntity = articledao.delete(articleEntity);

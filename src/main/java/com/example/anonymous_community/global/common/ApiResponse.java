@@ -1,16 +1,12 @@
 package com.example.anonymous_community.global.common;
 
 
-import com.example.anonymous_community.global.exception.StatusCode;
+import com.example.anonymous_community.global.exception.enums.StatusCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Data
 @AllArgsConstructor

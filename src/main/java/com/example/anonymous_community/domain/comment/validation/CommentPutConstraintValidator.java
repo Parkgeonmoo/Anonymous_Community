@@ -1,8 +1,10 @@
 package com.example.anonymous_community.domain.comment.validation;
 
 import com.example.anonymous_community.domain.comment.dto.request.CommentUpdateRequest;
+import com.example.anonymous_community.domain.comment.exception.CommentErrorCode;
+import com.example.anonymous_community.domain.comment.exception.CommentException;
 import com.example.anonymous_community.global.exception.BaseException;
-import com.example.anonymous_community.global.exception.ErrorCode;
+import com.example.anonymous_community.global.exception.GlobalErrorCode;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;
@@ -18,22 +20,22 @@ public class CommentPutConstraintValidator implements ConstraintValidator<Commen
     @Override
     public boolean isValid(CommentUpdateRequest commentUpdateRequest, ConstraintValidatorContext context) {
         if (commentUpdateRequest.getArticleIndex() == null || !(commentUpdateRequest.getArticleIndex() instanceof Integer)) {
-            throw new BaseException(ErrorCode.COMMENT_WRONG_TYPE_ARTICLE_INDX_ERROR);
+            throw new CommentException(CommentErrorCode.COMMENT_WRONG_TYPE_ARTICLE_INDX_ERROR);
         }
         if (commentUpdateRequest.getArticleIndex() <= 0) {
-            throw new BaseException(ErrorCode.COMMENT_WRONG_BOUNDARY_ARTICLE_INDEX_ERROR);
+            throw new CommentException(CommentErrorCode.COMMENT_WRONG_BOUNDARY_ARTICLE_INDEX_ERROR);
         }
 
         if (commentUpdateRequest.getCommentIndex() == null || !(commentUpdateRequest.getArticleIndex() instanceof Integer)) {
-            throw new BaseException(ErrorCode.COMMENT_WRONG_TYPE_COMMENT_INDX_ERROR);
+            throw new CommentException(CommentErrorCode.COMMENT_WRONG_TYPE_COMMENT_INDX_ERROR);
         }
         if (commentUpdateRequest.getCommentIndex() <= 0) {
-            throw new BaseException(ErrorCode.COMMENT_WRONG_BOUNDARY_COMMENT_INDEX_ERROR);
+            throw new CommentException(CommentErrorCode.COMMENT_WRONG_BOUNDARY_COMMENT_INDEX_ERROR);
         }
 
         if (allColumns(commentUpdateRequest)) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ErrorCode.COMMENT_CONTENTS_NICKNAME_NEED_ONE_ERROR.getMessage())
+            context.buildConstraintViolationWithTemplate(CommentErrorCode.COMMENT_CONTENTS_NICKNAME_NEED_ONE_ERROR.getMessage())
                     .addPropertyNode("contents")
                     .addConstraintViolation();
             return false;
