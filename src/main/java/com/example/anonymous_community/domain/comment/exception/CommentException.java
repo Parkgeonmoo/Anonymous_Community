@@ -1,0 +1,24 @@
+package com.example.anonymous_community.domain.comment.exception;
+
+import com.example.anonymous_community.global.exception.BaseException;
+import com.example.anonymous_community.global.exception.ErrorCodeInterface;
+import lombok.Getter;
+
+@Getter
+public class CommentException extends BaseException {
+
+    private ErrorCodeInterface errorCode;
+
+    public CommentException() {
+
+    }
+
+    public CommentException(ErrorCodeInterface errorCode) {
+        super(errorCode);
+        this.errorCode = errorCode;
+    }
+    public int getStatusCode() {
+        return this.errorCode.getHttpCode();
+    }
+
+}
