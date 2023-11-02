@@ -45,7 +45,7 @@ public class ArticleEntity extends BaseTimeEntity {
     @Column
     private String password;
 
-    @OneToMany(mappedBy = "articleIndex", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "articleIndex", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<CommentEntity> comments = new ArrayList<>();
 
 
