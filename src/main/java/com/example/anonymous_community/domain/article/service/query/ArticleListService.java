@@ -5,9 +5,12 @@ import com.example.anonymous_community.domain.article.entity.ArticleEntity;
 import com.example.anonymous_community.domain.article.exception.ArticleErrorCode;
 import com.example.anonymous_community.domain.article.exception.ArticleException;
 import com.example.anonymous_community.domain.article.repository.ArticleRepositorySupport;
+import com.example.anonymous_community.domain.comment.exception.CommentErrorCode;
+import com.example.anonymous_community.domain.comment.exception.CommentException;
 import com.example.anonymous_community.global.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +42,15 @@ public class ArticleListService {
 
     @Transactional(readOnly = true)
     public List<ArticleGetListResponse> getList(int page, int limit) {
+
+        if (!StringUtils.isNumeric(String.valueOf(page))) {
+            throw new ArticleException(ArticleErrorCode.ARTICLE_PAGE_WRONG_TYE_ERROR);
+        }
+
+        if (!StringUtils.isNumeric(String.valueOf(limit))) {
+            throw new ArticleException(ArticleErrorCode.ARTICLE_LIMIT_WRONG_TYE_ERROR);
+        }
+
         if (page <= 0) {
             throw new ArticleException(ArticleErrorCode.ARTICLE_PAGE_ERROR);
         }

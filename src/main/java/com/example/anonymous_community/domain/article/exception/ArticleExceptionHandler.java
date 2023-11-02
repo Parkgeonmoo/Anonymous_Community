@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@RestControllerAdvice("com.example.anonymous_community.domain.article")
+@RestControllerAdvice("com.example.anonymous_community.domain")
 public class ArticleExceptionHandler {
 
     @ExceptionHandler(ArticleException.class)

@@ -2,12 +2,16 @@ package com.example.anonymous_community.domain.article.entity;
 
 import com.example.anonymous_community.domain.article.dto.request.ArticleEntryRequest;
 import com.example.anonymous_community.domain.article.dto.request.ArticleUpdateRequest;
+import com.example.anonymous_community.domain.comment.dto.response.CommentGetListResponse;
+import com.example.anonymous_community.domain.comment.entity.CommentEntity;
 import com.example.anonymous_community.global.common.BaseTimeEntity;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 게시글 Entity
@@ -40,6 +44,9 @@ public class ArticleEntity extends BaseTimeEntity {
 
     @Column
     private String password;
+
+    @OneToMany(mappedBy = "articleIndex", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<CommentEntity> comments = new ArrayList<>();
 
 
 

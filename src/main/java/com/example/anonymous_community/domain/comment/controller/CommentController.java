@@ -2,7 +2,9 @@ package com.example.anonymous_community.domain.comment.controller;
 
 import com.example.anonymous_community.domain.comment.dto.request.CommentEntryRequest;
 import com.example.anonymous_community.domain.comment.dto.request.CommentUpdateRequest;
+import com.example.anonymous_community.domain.comment.dto.response.CommentDeleteResponse;
 import com.example.anonymous_community.domain.comment.dto.response.CommentEntryResponse;
+import com.example.anonymous_community.domain.comment.dto.response.CommentGetListResponse;
 import com.example.anonymous_community.domain.comment.dto.response.CommentUpdateResponse;
 import com.example.anonymous_community.global.common.ApiResponse;
 import com.example.anonymous_community.domain.comment.service.command.CommentDeleteService;
@@ -12,12 +14,7 @@ import com.example.anonymous_community.global.exception.enums.StatusCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 import com.example.anonymous_community.domain.comment.service.command.CommentEntryService;
 
 import javax.validation.Valid;
@@ -66,16 +63,16 @@ public class CommentController {
      * @return {@link ResponseEntity}
      */
     @GetMapping("/comment")
-    public ResponseEntity doGetAsComment(String articleIndex) {
+    public ResponseEntity<ApiResponse> doGetAsComment(@Valid @RequestParam("articleIndex") Integer articleIndex) {
 
-        final List<CommentEntryRequest> result = commentListService.getList(articleIndex);
+        final List<CommentGetListResponse> result = commentListService.getList(articleIndex);
 
 
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .statusCode(StatusCode.SUCCESS)
                         .httpCode(HttpStatus.OK.value())
-                        .data("")
+                        .data(result)
                         .build()
         );
     }
@@ -108,24 +105,26 @@ public class CommentController {
     /**
      * 댓글 삭제 요청
      *
-     * @param param {@link CommentEntryRequest} 댓글 삭제 요청 파라미터
+     * @param articleIndex,commentIndex,password {@link Integer,Integer,String} 댓글 삭제 요청 파라미터
      * @return {@link ResponseEntity}
      *
      */
 
-    /**
-    @DeleteMapping("/comment")
-    public ResponseEntity doDeleteAsComment(@RequestBody CommentEntryRequest param) {
 
-        commentDeleteService.delete(param);
+    @DeleteMapping("/comment")
+    public ResponseEntity<ApiResponse> doDeleteAsComment(@Valid @RequestParam("articleIndex") Integer articleIndex,
+                                            @RequestParam("commentIndex") Integer commentIndex,
+                                            @RequestParam("password") String password) {
+
+        CommentDeleteResponse commentDeleteResponse = commentDeleteService.delete(articleIndex,commentIndex,password);
 
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .statusCode(StatusCode.SUCCESS)
                         .httpCode(HttpStatus.OK.value())
-                        .data("")
+                        .data(commentDeleteResponse)
                         .build()
         );
     }
-    **/
+
 }

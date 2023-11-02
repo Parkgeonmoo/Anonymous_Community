@@ -22,7 +22,7 @@ public class CommentRepositoySupport extends QuerydslRepositorySupport {
         super(CommentEntity.class);
         this.jpaQueryFactory = new JPAQueryFactory(entityManager);
     }
-
+    /**
     public List<CommentEntity> findByIndex(Integer index) {
         QCommentEntity qCommentEntity = QCommentEntity.commentEntity;
         return jpaQueryFactory
@@ -30,4 +30,5 @@ public class CommentRepositoySupport extends QuerydslRepositorySupport {
                 .where(qCommentEntity.articleIndex.eq(index))
                 .fetch();
     }
+     **/
 }

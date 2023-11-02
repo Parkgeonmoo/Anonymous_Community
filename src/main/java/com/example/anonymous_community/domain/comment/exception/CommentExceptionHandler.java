@@ -1,12 +1,15 @@
 package com.example.anonymous_community.domain.comment.exception;
 
 
+import com.example.anonymous_community.domain.article.exception.ArticleErrorCode;
+import com.example.anonymous_community.domain.article.exception.ArticleException;
 import com.example.anonymous_community.global.common.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -15,10 +18,29 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CommentExceptionHandler {
 
     @ExceptionHandler(CommentException.class)
-    public ResponseEntity<ApiResponse<String>> articleBaseException(CommentException e) {
+    public ResponseEntity<ApiResponse<String>> commentBaseException(CommentException e) {
         return new ResponseEntity<>(
                 ApiResponse.fail(e.getStatusCode(), e.getMessage()),
                 HttpStatus.valueOf(e.getStatusCode())
+        );
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ApiResponse<String>> commentMissingException(MissingServletRequestParameterException e) {
+        String missingParamName = e.getParameterName();
+        CommentException commentException;
+
+        if ("articleIndex".equals(missingParamName)) {
+            commentException = new CommentException(CommentErrorCode.COMMENT_ARTICLE_INDEX_NEED_ERROR);
+        }
+
+        else {
+            commentException = new CommentException(CommentErrorCode.GLOBAL_ERROR_CODE);
+        }
+
+        return new ResponseEntity<>(
+                ApiResponse.fail(commentException.getStatusCode(), commentException.getMessage()),
+                HttpStatus.valueOf(commentException.getStatusCode())
         );
     }
 
