@@ -6,9 +6,12 @@ import com.example.anonymous_community.domain.article.entity.ArticleEntity;
 import com.example.anonymous_community.domain.article.exception.ArticleErrorCode;
 import com.example.anonymous_community.domain.article.exception.ArticleException;
 import com.example.anonymous_community.domain.article.repository.ArticleRepository;
+import com.example.anonymous_community.domain.comment.exception.CommentErrorCode;
+import com.example.anonymous_community.domain.comment.exception.CommentException;
 import com.example.anonymous_community.global.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +36,19 @@ public class ArticleDeleteService {
       */
     @Transactional
     public ArticleDeleteResponse delete(Integer articleIndex, String password) {
+
+        if (articleIndex <= 0) {
+            throw new ArticleException(ArticleErrorCode.ARTICLE_WRONG_BOUNDARY_ARTICLE_INDEX_ERROR);
+        }
+
+        if (!StringUtils.isNumeric(String.valueOf(articleIndex))) {
+            throw new ArticleException(ArticleErrorCode.ARTICLE_WRONG_TYPE_ARTICLE_INDX_ERROR);
+        }
+
+        if (password == null) {
+            throw new ArticleException(ArticleErrorCode.ARTICLE_PASSWORD_NEED_ERROR);
+        }
+
 
         ArticleEntity articleEntity = articleRepository.findById(articleIndex)
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_INDEX_DELETE_ERROR));

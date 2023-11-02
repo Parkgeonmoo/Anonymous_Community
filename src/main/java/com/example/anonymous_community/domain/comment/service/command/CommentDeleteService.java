@@ -1,8 +1,16 @@
 package com.example.anonymous_community.domain.comment.service.command;
 
+import com.example.anonymous_community.domain.article.entity.ArticleEntity;
+import com.example.anonymous_community.domain.article.exception.ArticleErrorCode;
+import com.example.anonymous_community.domain.article.exception.ArticleException;
+import com.example.anonymous_community.domain.article.repository.ArticleRepository;
 import com.example.anonymous_community.domain.comment.dao.CommentDao;
 import com.example.anonymous_community.domain.comment.dto.request.CommentEntryRequest;
+import com.example.anonymous_community.domain.comment.dto.response.CommentDeleteResponse;
 import com.example.anonymous_community.domain.comment.entity.CommentEntity;
+import com.example.anonymous_community.domain.comment.exception.CommentErrorCode;
+import com.example.anonymous_community.domain.comment.exception.CommentException;
+import com.example.anonymous_community.domain.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -20,37 +28,54 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class CommentDeleteService {
     private final CommentDao commentdao;
+    private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
 
     /**
      * 댓글 삭제
      *
-     * @param inputCommentEntryRequest {@link CommentEntryRequest}
+     * @param articleIndex,commentIndex,password {@link Integer,Integer,String}
      */
 
-    /**
+
     @Transactional
-    public void delete(CommentEntryRequest inputCommentEntryRequest) {
+    public CommentDeleteResponse delete(Integer articleIndex,Integer commentIndex,String password) {
 
-        final String articleIndex = inputCommentEntryRequest.getArticleIndex();
-        final String commentIndex = inputCommentEntryRequest.getCommentIndex();
-        if (!NumberUtils.isDigits(articleIndex) || !NumberUtils.isDigits(commentIndex)) {
-            log.error("해당 댓글을 지우실 수 없습니다.");
-            return;
-        } else if (NumberUtils.toInt(articleIndex) <= 0 || NumberUtils.toInt(commentIndex) <= 0) {
-            log.error("해당 댓글을 지우실 수 없습니다.");
-            return;
+        if (articleIndex <= 0) {
+            throw new CommentException(CommentErrorCode.COMMENT_WRONG_BOUNDARY_ARTICLE_INDEX_ERROR);
         }
 
-        if (StringUtils.isBlank(inputCommentEntryRequest.getPassword())) {
-            log.error("댓글 삭제를 위해 댓글 비밀번호를 입력해주세요.");
-            return;
+        if (!StringUtils.isNumeric(String.valueOf(articleIndex))) {
+            throw new CommentException(CommentErrorCode.COMMENT_WRONG_TYPE_ARTICLE_INDX_ERROR);
         }
 
-        final CommentEntity CommentEntity = new CommentEntity(inputCommentEntryRequest);
-        if (commentdao.delete(CommentEntity) == null) {
-            log.error("지우고자 하는 댓글을 지우지 못하였습니다.");
+        if (commentIndex <= 0) {
+            throw new CommentException(CommentErrorCode.COMMENT_WRONG_BOUNDARY_COMMENT_INDEX_ERROR);
         }
+
+        if (!StringUtils.isNumeric(String.valueOf(commentIndex))) {
+            throw new CommentException(CommentErrorCode.COMMENT_WRONG_TYPE_COMMENT_INDX_ERROR);
+        }
+
+        if (password == null) {
+            throw new CommentException(CommentErrorCode.COMMENT_PASSWORD_NEED_ERROR);
+        }
+
+        articleRepository.findById(articleIndex)
+                .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_INDEX_DELETE_ERROR));
+
+        CommentEntity commentEntity = commentRepository.findById(commentIndex)
+                .orElseThrow(() -> new CommentException(CommentErrorCode.COMMENT_PUT_COMMENT_INDEX_FAIL_ERROR));
+
+        if (!password.equals(commentEntity.getPassword())) {
+            throw new CommentException(CommentErrorCode.COMMENT_UNVALID_PASSWORD_ERROR);
+        }
+
+        commentEntity = commentdao.delete(commentEntity);
+
+
+        return CommentDeleteResponse.fromEntity(commentEntity);
 
     }
-    **/
+
 }

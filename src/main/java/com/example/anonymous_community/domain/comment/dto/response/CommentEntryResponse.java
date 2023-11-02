@@ -24,7 +24,7 @@ public class CommentEntryResponse {
 
         return CommentEntryResponse.builder()
                 .commentIndex(commentEntity.getCommentIndex())
-                .articleIndex(commentEntity.getArticleIndex())
+                .articleIndex(commentEntity.getArticleIndex().getArticleIndex())
                 .nickName(commentEntity.getNickName())
                 .contents(commentEntity.getContents())
                 .password(commentEntity.getPassword())

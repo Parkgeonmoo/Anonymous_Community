@@ -1,6 +1,7 @@
 package com.example.anonymous_community.domain.comment.entity;
 
 import com.example.anonymous_community.domain.article.dto.request.ArticleUpdateRequest;
+import com.example.anonymous_community.domain.article.entity.ArticleEntity;
 import com.example.anonymous_community.domain.comment.dto.request.CommentEntryRequest;
 import com.example.anonymous_community.domain.comment.dto.request.CommentUpdateRequest;
 import com.example.anonymous_community.global.common.BaseTimeEntity;
@@ -29,8 +30,9 @@ public class CommentEntity extends BaseTimeEntity {
     @Column(name ="comment_id", nullable = false)
     private Integer commentIndex;
 
-    @Column(name ="article_id",nullable = false)
-    private Integer articleIndex;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "article_id")
+    private ArticleEntity articleIndex;
 
     @Column(name ="nickname",nullable = false)
     private String nickName;

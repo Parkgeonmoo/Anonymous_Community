@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 import com.example.anonymous_community.domain.comment.repository.CommentRepository;
 
+import javax.persistence.EntityManager;
 import java.util.Optional;
 
 /**
@@ -55,34 +56,14 @@ public class CommentDao {
      * @return {@link CommentEntity}
      */
 
-    /**
+
     public CommentEntity delete(CommentEntity commentEntity) {
-        if (commentEntity == null) {
-            return null;
-        }
-        final String articleIndex = commentEntity.getArticleIndex();
-        final String commentIndex = commentEntity.getCommentIndex();
 
-        // JPA를 사용하여 articleIndex와 commentIndex에 해당하는 댓글 조회
-        final Optional<CommentEntity> existingCommentOptional = Optional.ofNullable(commentRepository.findByArticleIndexAndCommentIndex(articleIndex, commentIndex));
+        commentRepository.delete(commentEntity);
 
-        if (!existingCommentOptional.isPresent()) {
-            log.error("해당하는 댓글이 존재하지 않습니다.");
-            return null;
-        }
-
-        final CommentEntity existingComment = existingCommentOptional.get();
-
-        // 비밀번호 일치 여부 확인
-        if (!StringUtils.equals(existingComment.getPassword(), commentEntity.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
-        }
-
-        commentRepository.delete(existingComment);
-        return existingComment;
-
+        return commentEntity;
     }
-     **/
+
 
 
 

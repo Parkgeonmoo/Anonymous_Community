@@ -28,6 +28,7 @@ public enum CommentErrorCode implements ErrorCodeInterface {
     COMMENT_PUT_ERROR(StatusCode.FAIL, 400, "댓글 수정에 실패하였습니다."),
     COMMENT_DELETE_ERROR(StatusCode.FAIL, 400, "댓글 삭제에 실패하였습니다"),
     COMMENT_CONTENTS_NICKNAME_NEED_ONE_ERROR(StatusCode.FAIL,400,"닉네임과 내용 중 하나라도 수정할 내용이 필요합니다."),
+    COMMENT_GET_LIST_ERROR(StatusCode.FAIL,400,"댓글을 조회해오려는 글이 존재하지 않습니다."),
     GLOBAL_ERROR_CODE(StatusCode.FAIL, 500, "서버에 문제가 생겨 잠시 후 시도해주세요."),
     ;
 

@@ -1,5 +1,8 @@
 package com.example.anonymous_community.domain.comment.service.command;
 
+import com.example.anonymous_community.domain.article.entity.ArticleEntity;
+import com.example.anonymous_community.domain.article.exception.ArticleErrorCode;
+import com.example.anonymous_community.domain.article.exception.ArticleException;
 import com.example.anonymous_community.domain.article.repository.ArticleRepository;
 import com.example.anonymous_community.domain.comment.dto.request.CommentEntryRequest;
 import com.example.anonymous_community.domain.comment.dto.response.CommentEntryResponse;
@@ -34,13 +37,13 @@ public class CommentEntryService {
      */
     @Transactional
     public CommentEntryResponse entry(CommentEntryRequest inputCommentEntryRequest) {
-        System.out.println(inputCommentEntryRequest.getArticleIndex());
-        articleRepository.findById(inputCommentEntryRequest.getArticleIndex())
-                .orElseThrow(() -> new BaseException(CommentErrorCode.COMMENT_ENTRY_ARTICLE_INDEX_FAIL_ERROR));
 
+
+        ArticleEntity articleEntity = articleRepository.findById(inputCommentEntryRequest.getArticleIndex())
+                .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_GET_ERROR));
 
          CommentEntity commentEntity = CommentEntity.builder()
-                .articleIndex(inputCommentEntryRequest.getArticleIndex())
+                .articleIndex(articleEntity)
                 .nickName(inputCommentEntryRequest.getNickName())
                 .contents(inputCommentEntryRequest.getContents())
                 .password(inputCommentEntryRequest.getPassword())

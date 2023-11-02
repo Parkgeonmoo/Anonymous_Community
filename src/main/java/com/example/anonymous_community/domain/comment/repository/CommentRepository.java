@@ -13,6 +13,5 @@ import java.util.List;
  */
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity, Integer> {
-    List<CommentEntity> findByArticleIndex(Integer articleIndex);
-    CommentEntity findByArticleIndexAndCommentIndex(Integer articleIndex, Integer commentIndex);
+
 }
